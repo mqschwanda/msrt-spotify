@@ -1,0 +1,96 @@
+/* General */
+  /* main black:        #121314 */
+  /* dark gray accent:  #1c1c1f */
+  /* light gray accent: #88898c */
+  /* lime accent:       #1dd65f */
+
+    body {
+      background-color: #121314;
+    }
+    nav {
+      color: #88898c;
+      background-color: #1c1c1f;
+    }
+    .btn {
+      color: #88898c;
+    }
+
+  /* flex body and main for sticky footer */
+    body {
+      display: flex;
+      min-height: 100vh;
+      flex-direction: column;
+    }
+    main {
+      flex: 1 0 auto;
+    }
+
+/* Footer Top */
+footer.page-footer {
+  background-color: #88898c;
+}
+/* Footer bottom */
+footer.page-footer .footer-copyright {
+  background-color: #1c1c1f;
+  color: #88898c;
+}
+
+/* Navbar */
+  nav .brand-logo {
+    color: #1dd65f;
+  }
+  nav ul a {
+    color: #88898c;
+  }
+  /*  Search Bar */
+    #search {
+      text-align: none;
+      letter-spacing: none;
+      cursor: text;
+      text-transform: none;
+    }
+    #search.btn:hover {
+      background-color: #fff;
+      border: 0;
+      box-shadow: none;
+      color: #121314;
+    }
+    #search.dropdown-button.btn {
+      text-align: left;
+    }
+    input[type="search"] {
+      height: 64px !important; /* or height of nav */
+    }
+    .input-field input[type=search]:focus, .input-field input[type=search]:active, .input-field input[type=search]:hover {
+      background-color: #88898c !important;
+    }
+    .dropdown-content {
+      background-color: #88898c;
+    }
+    .dropdown-content li > a, .dropdown-content li > span {
+        color: #121314;
+    }
+    .search-dropdown-content {
+      top: 64px !important;
+      min-height: 64px;
+      vertical-align: middle;
+    }
+    nav .input-field label.active i {
+      color: #88898c;
+    }
+    /* used to change color of spyglass on hover */
+    .color-change {
+      color: #121314 !important;
+    }
+
+/* Content */
+  #spotify-pane, #watson-pane {
+    text-align: center;
+    color: #88898c;
+    height: 200px;
+  }
+
+/* Footer */
+  .footer-copyright {
+    text-align: center;
+  }

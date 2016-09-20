@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>MSRT</title>
+  <!--Import Google Icon Font-->
+  <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link type="text/css" rel="stylesheet" href="assets/stylesheets/materialize.css"  media="screen,projection"/>
+  <link rel="stylesheet" type="text/css" href="assets/stylesheets/styles.css">
+  <!--Let browser know website is optimized for mobile-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+</head>
+<body>
+  <header>
+    <nav>
+      <div class="nav-wrapper">
+        <!-- Logo -->
+        <a href="#" class="brand-logo center">MSRT</a>
+        <div class="row">
+          <!-- Search Bar -->
+          <div class="col s10">
+            <form>
+              <div class="input-field">
+                <!-- Dropdown Trigger inside search bar-->
+                <input id="search" type="search" type="text" name="q" placeholder="Search..." class="dropdown-button btn" href='#' data-activates='dropdown1'/>
+                <label for="search"><i id="spyglass" class="material-icons">search</i></label>
+                <!-- Dropdown Structure -->
+                <ul id='dropdown1' class='dropdown-content search-dropdown-content'>
+                  <li><a id="top-result" href="#">#top-result</a></li>
+                </ul>
+              </div>
+            </form>
+          </div>
+          <!-- Sign in button -->
+          <div class="col s2">
+            <ul class="right">
+              <li><a id="sign-in" hreaf="" class=""><i class="material-icons right">perm_identity</i>Sign In</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </nav>
+  </header>
+  <main>
+    <div class="row">
+      <!-- Place Spotify API data -->
+      <div id="spotify-pane" class="col s6">#spotify-pane</div>
+      <!-- Place Watson API data -->
+      <div id="watson-pane" class="col s6">#watson-pane</div>
+    </div>
+  </main>
+  <footer class="page-footer">
+    <div class="footer-copyright">
+      <div class="container">© 2016 MSRT</div>
+    </div>
+  </footer>
+  <script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
+  <script type="text/javascript" src="assets/javascripts/materialize.js"></script>
+  <script type="text/javascript" src="assets/javascripts/main.js"></script>
+  <script type="text/javascript" src="assets/javascripts/spotify.js"></script>
+  <script type="text/javascript" src="assets/javascripts/watson.js"></script>
+</body>
+</html>
