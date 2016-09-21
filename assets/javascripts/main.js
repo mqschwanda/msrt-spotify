@@ -2,8 +2,6 @@ var search, returnSong, topResult, returnResult, songTitle, songAlbum, songAlbum
 
 // function that calls Spotify API from search
 function spotifyAPI() {
-  spotifyInput = search;
-  tomFunction(spotifyInput);
   //
   // place Spotify call function here
   //
