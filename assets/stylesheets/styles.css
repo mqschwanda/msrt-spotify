@@ -1,20 +1,62 @@
-/* General */
-  /* main black:        #121314 */
-  /* dark gray accent:  #1c1c1f */
-  /* light gray accent: #88898c */
-  /* lime accent:       #1dd65f */
+/* Spotify Brand Guidelines */
+    /* Brand Colors */
+    /* White: #ffffff */
+    /* Sand:  #ecebe8 */
+    /* Grey:  #828282 */
+    /* Black: #191414 */
+    /* Green: #1DB954 */
 
-    body {
-      background-color: #121314;
-    }
-    nav {
-      color: #88898c;
-      background-color: #1c1c1f;
-    }
-    .btn {
-      color: #88898c;
+    /* Font */
+    html {
+      font-family: "Circular Spotify", "Helvetica Neue", Arial, Sans Serif;
     }
 
+/* Navbar */
+  /*  Search Bar */
+    #search {
+      text-align: left;
+      cursor: text;
+      text-transform: none;
+    }
+    #search.btn:hover {
+      border: 0;
+      box-shadow: none;
+      background-color: transparent;
+    }
+    input[type="search"] {
+      height: 64px !important; /* match height of nav */
+    }
+    .search-dropdown-content {
+      top: 64px !important; /* match height of nav */
+      max-height: 200%;
+      vertical-align: middle;
+    }
+    #album-img {
+      max-height: 150px;
+      width: auto;
+    }
+
+/* Content */
+  #spotify-pane {
+    background-image: url("../images/spotify_icon_green.png");
+    background-repeat: no-repeat;
+    background-size: 100%;
+  }
+  #watson-pane {
+    background-image: url("../images/watson_icon.png");
+    background-repeat: no-repeat;
+    background-size: 100%;
+  }
+  #spotify-pane, #watson-pane {
+    text-align: center;
+    height: 600px;
+    border: solid;
+  }
+
+/* Footer */
+  .footer-copyright {
+    text-align: center;
+  }
   /* flex body and main for sticky footer */
     body {
       display: flex;
@@ -25,72 +67,3 @@
       flex: 1 0 auto;
     }
 
-/* Footer Top */
-footer.page-footer {
-  background-color: #88898c;
-}
-/* Footer bottom */
-footer.page-footer .footer-copyright {
-  background-color: #1c1c1f;
-  color: #88898c;
-}
-
-/* Navbar */
-  nav .brand-logo {
-    color: #1dd65f;
-  }
-  nav ul a {
-    color: #88898c;
-  }
-  /*  Search Bar */
-    #search {
-      text-align: none;
-      letter-spacing: none;
-      cursor: text;
-      text-transform: none;
-    }
-    #search.btn:hover {
-      background-color: #fff;
-      border: 0;
-      box-shadow: none;
-      color: #121314;
-    }
-    #search.dropdown-button.btn {
-      text-align: left;
-    }
-    input[type="search"] {
-      height: 64px !important; /* or height of nav */
-    }
-    .input-field input[type=search]:focus, .input-field input[type=search]:active, .input-field input[type=search]:hover {
-      background-color: #88898c !important;
-    }
-    .dropdown-content {
-      background-color: #88898c;
-    }
-    .dropdown-content li > a, .dropdown-content li > span {
-        color: #121314;
-    }
-    .search-dropdown-content {
-      top: 64px !important;
-      min-height: 64px;
-      vertical-align: middle;
-    }
-    nav .input-field label.active i {
-      color: #88898c;
-    }
-    /* used to change color of spyglass on hover */
-    .color-change {
-      color: #121314 !important;
-    }
-
-/* Content */
-  #spotify-pane, #watson-pane {
-    text-align: center;
-    color: #88898c;
-    height: 200px;
-  }
-
-/* Footer */
-  .footer-copyright {
-    text-align: center;
-  }

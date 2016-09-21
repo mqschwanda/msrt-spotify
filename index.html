@@ -22,11 +22,17 @@
             <form>
               <div class="input-field">
                 <!-- Dropdown Trigger inside search bar-->
-                <input id="search" type="search" type="text" name="q" placeholder="Search..." class="dropdown-button btn" href='#' data-activates='dropdown1'/>
+                <input id="search" type="search" type="text" name="q" placeholder="Search..." class="dropdown-button btn" href="#" data-activates="dropdown1" autocomplete="off"/>
                 <label for="search"><i id="spyglass" class="material-icons">search</i></label>
                 <!-- Dropdown Structure -->
-                <ul id='dropdown1' class='dropdown-content search-dropdown-content'>
-                  <li><a id="top-result" href="#">#top-result</a></li>
+                <ul id="dropdown1" class="dropdown-content search-dropdown-content collection">
+                  <li class="collection-item avatar">
+                    <i class="material-icons circle">folder</i>
+                    <span id="song-title" class="title">Song Title</span>
+                    <div id="song-album">Song Album</div>
+                    <div id="song-artist" >Song Artist</div>
+                    <a href="#!" class="secondary-content"><i class="material-icons">grade</i></a>
+                  </li>
                 </ul>
               </div>
             </form>
