@@ -4,7 +4,7 @@ var search, returnSong, topResult, returnResult, songTitle, songAlbum, songAlbum
 function spotifyAPI() {
   //
   // place Spotify call function here
-  //
+  spotifySongSearch("hello")
 
   // flag for no result
   if (typeof(result) !== 'undefined') {
@@ -14,6 +14,8 @@ function spotifyAPI() {
     returnResult = false;
   }
 }
+
+spotifyAPI()
 
 // updates search bar drop-down with top result
 function setTopResult(){
