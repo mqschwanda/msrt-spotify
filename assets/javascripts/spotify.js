@@ -25,7 +25,9 @@
       for (var i = 0; i < 5; i++) {
         var iPlus = i+1;
         $("#song-img"+iPlus).attr('src', spotifySongResult.tracks.items[i].album.images[0].url);
-        $("#song-img"+iPlus).data('spotifyID', spotifySongResult.tracks.items[i].id);
+        $("#song-img"+iPlus).parent().data('spotifyID', spotifySongResult.tracks.items[i].id);
+        // console.log("----- Spotify ID -----");
+        // console.log($("#song-img"+iPlus).data('spotifyID'));
         $("#song-title"+iPlus).html(spotifySongResult.tracks.items[i].name);
         $("#song-album"+iPlus).html(spotifySongResult.tracks.items[i].album.name);
         $("#song-artist"+iPlus).html(spotifySongResult.tracks.items[i].artists[0].name);
@@ -91,7 +93,7 @@
         // Call the next AJAX call after this call is done
         queryMusixForLyrics(musixTrackId);
 
-      }); 
+      });
     }
 
   // ------------------------------ Query 4 - MusixMatch - Find Lyrics using Track Id ------------------------------
@@ -143,6 +145,32 @@ function printSong(){
   $('#lyrics').html(currentSong.lyrics);
 }
 
+// generates Spotify iframe for current song variable
+function printSongIframe(){
+  var iframe = $('<iframe>')
+  iframe.attr({
+    src: 'https://embed.spotify.com/?uri=spotify:track:'+currentSong.spotifyID,
+    frameborder: '0',
+    allowtransparency: 'true'
+  });
+  $('#iframe').append(iframe);
+}
+
+// generates Spotify iframe for playlist from user
+function printPlaylistIframe(){
+  var iframe = $('<iframe>')
+  var playlist = '3rgsDhGHZxZ9sB9DQWQfuf';
+  var user = 'spotify';
+  iframe.attr({
+    src: 'https://embed.spotify.com/?uri=spotify:user:'+user+':playlist:'+playlist,
+    width: '300',
+    height: '380',
+    frameborder: '0',
+    allowtransparency: 'true'
+  });
+  $('#iframe').append(iframe);
+}
+
 // fires function every time letter is typed into search
 $('#search').keyup(function(){
     search = $(this).val();
@@ -154,20 +182,22 @@ $('#search').keyup(function(){
 // load ID from Spotify on click
 var currentSong;
 $('.dropdown-row').on('click', function(){
-  var div = $(this)
+  var div = $(this);
   // set currentSong
   currentSong = {
     'title': div.children("[id*='song-title']").html(),
     'album': div.children("[id*='song-album']").html(),
     'albumImg': div.children("[id*='song-img']").attr('src'),
     'artist': div.children("[id*='song-artist']").html(),
-    'id': div.children("[id*='song-album']").data('spotifyID')
+    'spotifyID': div.data('spotifyID')
   };
   // call Musix function
   queryMusixForId(currentSong.artist,currentSong.title,currentSong.album);
   // add lyrics to object
   currentSong.lyrics = musixLyrics;
   printSong();
+  printSongIframe();
+  printPlaylistIframe();
 
 });
 
