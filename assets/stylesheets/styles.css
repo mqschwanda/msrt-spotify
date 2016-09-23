@@ -28,12 +28,12 @@
     }
     .search-dropdown-content {
       top: 64px !important; /* match height of nav */
-      max-height: 200%;
+/*      max-height: 200%;*/
       vertical-align: middle;
     }
     #album-img {
-      max-height: 150px;
-      width: auto;
+      max-width: 50%;
+      height: auto;
     }
 
 /* Content */
@@ -67,3 +67,20 @@
       flex: 1 0 auto;
     }
 
+.dropdown-row {
+/*  display: inline;*/
+}
+
+.dropdown-data {
+  margin: auto;
+}
+
+.search-album-img {
+  height: 64px;
+  width: auto;
+  float: left;
+}
+
+.dropdown-row.valign-wrapper {
+  text-align: center;
+}
