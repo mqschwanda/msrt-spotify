@@ -153,16 +153,15 @@ $('#search').keyup(function(){
 
 // load ID from Spotify on click
 var currentSong;
-$('.search-album-img').on('click', function(){
-  var songId = $(this).data('spotifyID');
-  var div = $(this).parent();
+$('.dropdown-row').on('click', function(){
+  var div = $(this)
   // set currentSong
   currentSong = {
     'title': div.children("[id*='song-title']").html(),
     'album': div.children("[id*='song-album']").html(),
     'albumImg': div.children("[id*='song-img']").attr('src'),
     'artist': div.children("[id*='song-artist']").html(),
-    'id': songId
+    'id': div.children("[id*='song-album']").data('spotifyID')
   };
   // call Musix function
   queryMusixForId(currentSong.artist,currentSong.title,currentSong.album);
