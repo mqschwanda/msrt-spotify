@@ -224,6 +224,7 @@ function printSong(){
 
 // generates Spotify iframe for current song variable
 function printSongIframe(){
+  $('#iframe').empty();
   var iframe = $('<iframe>')
   iframe.attr({
     src: 'https://embed.spotify.com/?uri=spotify:track:'+currentSong.spotifyID,
@@ -251,7 +252,6 @@ function printPlaylistIframe(){
 // fires function every time letter is typed into search
 $('#search').keyup(function(){
     search = $(this).val();
-    // console.log(search);
     spotifySongSearch(search);
     printTopResults();
 });
@@ -279,6 +279,32 @@ $('.dropdown-row').on('click', function(){
 });
 
 
+var userID = '';
+    function makePlaylist(){
+      // generate playlist with Spotify API
+      var queryURL = "https://api.spotify.com/v1/users/"+userID+"/playlists";
+
+      $.ajax({url: queryURL1, method: 'GET'}).done(function(response) {
+
+        // Globally store the playlist Response
+        spotifyPlaylist = response;
+
+      });
+    }
+
+var playlistID = '';
+userID = '';
+    function addSongsPlaylist(){
+      // generate playlist with Spotify API
+      var queryURL = "https://api.spotify.com/v1/users/"+userID+"/playlists/"+playlistID+"/tracks";
+
+      $.ajax({url: queryURL1, method: 'GET'}).done(function(response) {
+
+        // Globally store the playlist Response
+        spotifyPlaylist = response;
+
+      });
+    }
 
 
 
