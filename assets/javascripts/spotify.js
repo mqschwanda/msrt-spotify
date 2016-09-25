@@ -1,4 +1,79 @@
+// ***************************************** These should be incorporated into main.js and/or index.html *****************************************
+
+
+// ---------------------------------------------------------------------------
+
+  // LOOK IN THE CONSOLE LOG FOR THE HYPERLINKS. WE NEED TO MAKE hyperlinks for the login in button... and im thinking a log out button too. 
+
+  // You dont need to keep this function, i just found it useful to call it from the console when troubleshooting
+  function logInUser(){
+    
+    var msrtSpotifyClientId = "f0bec57f45dd42bead54f9a76d931a9c";
+
+    // Log In and Link to MSRT App
+    var queryURLforSpotifyToken = "https://accounts.spotify.com/authorize/?client_id=" + msrtSpotifyClientId + "&response_type=token&redirect_uri=http%3A%2F%2Fmsrt-spotify.herokuapp.com%2F&scope=user-read-private%20user-read-email%20playlist-modify-public";
+    console.log("Log In URL...")
+    console.log(queryURLforSpotifyToken);
+
+    // Log Out (if needed in future)
+    console.log("Log Out URL (if needed in future)...")
+    console.log("https://accounts.spotify.com/en/status")
+  }
+
+
+// ******************************************** END OF MAIN.JS and/or index.html ADDITIONS ********************************************************************
+
+
+
+
+
+
+
+
 // ============================================== Spotify API Queries ==============================================
+
+
+
+  // ------------------------------ Query 0 - Spotify - Search for User's unique ID ------------------------------
+    var userSpotifyId;
+
+    // On page load, check the current URL
+    $(document).ready(function(){
+
+      // Check for a hash symbol in the URL (A successful login will bring the user to a URL with the Access Token encoded as a hash)
+      if(window.location.hash != ""){
+
+        // Collect the Access Token from the URL
+        var cropToGetToken = window.location.hash;
+        cropToGetToken = cropToGetToken.split("#access_token=");
+        cropToGetToken = cropToGetToken[1];
+        cropToGetToken = cropToGetToken.split("&");
+        cropToGetToken = cropToGetToken[0];
+
+        // Collect the access token from the cropped window hash
+        var spotifyAccessToken = cropToGetToken;
+
+
+        // AJAX Call to get the User Information (using the Access Token)
+        $.ajax({
+          url: 'https://api.spotify.com/v1/me',
+          headers: {
+            'Authorization': 'Bearer ' + spotifyAccessToken
+          },
+          success: function(userInfoResponse) {
+            console.log(userInfoResponse)
+
+            // Collect the User's Spotify Id
+            userSpotifyId = userInfoResponse.id;
+
+            console.log(userSpotifyId)
+          }
+        });
+
+      }
+      
+    });
+
 
   // ------------------------------ Query 1 - Spotify - Search for Track ID ------------------------------
     var spotifySongResult;
@@ -55,6 +130,8 @@
 
     });
   }
+
+
 
 // ============================================== MusixMatch API Queries ==============================================
 
