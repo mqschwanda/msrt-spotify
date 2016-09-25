@@ -14,11 +14,13 @@
     var queryURLforSpotifyToken = "https://accounts.spotify.com/authorize/?client_id=" + msrtSpotifyClientId + "&response_type=token&redirect_uri=http%3A%2F%2Fmsrt-spotify.herokuapp.com%2F&scope=user-read-private%20user-read-email%20playlist-modify-public";
     console.log("Log In URL...")
     console.log(queryURLforSpotifyToken);
+    $('#sign-in').attr('href', queryURLforSpotifyToken);
 
     // Log Out (if needed in future)
-    console.log("Log Out URL (if needed in future)...")
-    console.log("https://accounts.spotify.com/en/status")
+    // console.log("Log Out URL (if needed in future)...")
+    // console.log("https://accounts.spotify.com/en/status")
   }
+  logInUser();
 
 
 // ******************************************** END OF MAIN.JS and/or index.html ADDITIONS ********************************************************************
