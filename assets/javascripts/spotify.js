@@ -17,8 +17,8 @@
     $('#sign-in').attr('href', queryURLforSpotifyToken);
 
     // Log Out (if needed in future)
-    // console.log("Log Out URL (if needed in future)...")
-    // console.log("https://accounts.spotify.com/en/status")
+    console.log("Log Out URL (if needed in future)...")
+    console.log("https://accounts.spotify.com/en/status")
   }
   logInUser();
 
@@ -87,13 +87,17 @@
 
       // Run an initial search to identify the song's (track) unique Spotify ID
       var queryURL1 = "https://api.spotify.com/v1/search?q=" + songTitle + "&type=track";
+      
+        $.ajax({url: queryURL1, method: 'GET'}).done(function(songResponse) {
 
-      $.ajax({url: queryURL1, method: 'GET'}).done(function(songResponse) {
+          // Globally store the Song Search Response
+          spotifySongResult = songResponse;
 
-        // Globally store the Song Search Response
-        spotifySongResult = songResponse;
 
-      });
+          // Wait for query to finish and then print result
+          printTopResults();
+
+        });
 
     }
 
@@ -114,8 +118,8 @@
   // ------------------------------ Query 2 - Spotify - Use Song ID ** ONLY USED IF NEEDED IN THE FUTURE, OTHERWISE WE CAN REMOVE IT** ------------------------------
   // ************************** DELETE ME LATER - Start **************************
   // Example pass in from Main.js
-  var input = "0ENSn4fwAbCGeFGVUbXEU3";
-  spotifyIdSearch(input);
+  //var input = "0ENSn4fwAbCGeFGVUbXEU3";
+  ///spotifyIdSearch(input);
   // ************************** DELETE ME LATER - End **************************
 
   var spotifyIdResult;
@@ -139,14 +143,6 @@
 
   // Musix API Key
   var tomsMusixAPIkey = "1ff5234a0012c537709d815bfc88a85d";
-
-  // ************************** DELETE ME LATER - Start **************************
-  // Example pass in from Main.js
-  var artistName1 = "Taylor Swift";
-  var trackName1 = "Blank Space";
-  var albumName1 = "1989";
-  queryMusixForId(artistName1, trackName1, albumName1);
-  // ************************** DELETE ME LATER - End **************************
 
   // ------------------------------ Query 3 - MusixMatch - Search for Track Id ------------------------------
     var musixTrackId;
@@ -212,6 +208,14 @@
         // console.log("Musix Lyrics (Note Only 30% are listed... good enough, right?: ")
         // console.log(musixLyrics)
 
+
+
+        // Print lyrics to page and store as a variable in the object
+        currentSong.lyrics = musixLyrics;
+        printSong();
+        printSongIframe();
+        printPlaylistIframe();
+
       });
     }
 
@@ -252,10 +256,17 @@ function printPlaylistIframe(){
 }
 
 // fires function every time letter is typed into search
-$('#search').keyup(function(){
+$('#search').keyup(function(e){
+
     search = $(this).val();
-    spotifySongSearch(search);
-    printTopResults();
+
+    // Only run query when key pressed is a letter (a = 65 and z = 90)
+    if(e.keyCode >= 65 && e.keyCode <= 90){
+      spotifySongSearch(search);
+    }
+
+    // The code below was moved into the ajax call to wait for query to finish and then print result
+    // printTopResults();
 });
 
 // load ID from Spotify on click
@@ -272,11 +283,13 @@ $('.dropdown-row').on('click', function(){
   };
   // call Musix function
   queryMusixForId(currentSong.artist,currentSong.title,currentSong.album);
-  // add lyrics to object
-  currentSong.lyrics = musixLyrics;
-  printSong();
-  printSongIframe();
-  printPlaylistIframe();
+
+  // ALL OF THE BELOW WAS MOVED INTO THE AJAX CALL (TO WAIT FOR IT TO FINISH LOADING)
+  // // add lyrics to object
+  // currentSong.lyrics = musixLyrics;
+  // printSong();
+  // printSongIframe();
+  // printPlaylistIframe();
 
 });
 
