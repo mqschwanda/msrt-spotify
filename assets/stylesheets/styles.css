@@ -39,19 +39,24 @@
 
 /* Content */
   #spotify-pane {
-    background-image: url("../images/spotify_icon_green.png");
-    background-repeat: no-repeat;
+   /* background-image: url("../images/spotify_icon_green.png");
+    background-repeat: no-repeat;*/
+    background-color: black;
     background-size: 100%;
+    color: #1DB954;
   }
   #watson-pane {
-    background-image: url("../images/watson_icon.png");
-    background-repeat: no-repeat;
+    /*background-image: url("../images/watson_icon.png");
+    background-repeat: no-repeat;*/
+    background-color: white;
     background-size: 100%;
   }
+
   #spotify-pane, #watson-pane {
     text-align: center;
     height: 600px;
     border: solid;
+    /*overflow: scroll;*/
   }
 
 /* Footer */
@@ -59,14 +64,15 @@
     text-align: center;
   }
   /* flex body and main for sticky footer */
-    body {
-      display: flex;
-      min-height: 100vh;
-      flex-direction: column;
-    }
-    main {
-      flex: 1 0 auto;
-    }
+  body {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+  }
+
+  main {
+    flex: 1 0 auto;
+  }
 
 .dropdown-row {
 /*  display: inline;*/
