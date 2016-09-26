@@ -18,4 +18,3 @@
 //     }, function(){
 //     $('#spyglass').removeClass('color-change');
 // });
-
