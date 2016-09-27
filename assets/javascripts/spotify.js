@@ -454,7 +454,7 @@ $( "#show-playlists" ).on('click',function() {
   var deferred = getUserPlaylistIDs();
   $.when(deferred).done(function() {
     printUserPlaylists();
-  }
+  });
 });
 
 
