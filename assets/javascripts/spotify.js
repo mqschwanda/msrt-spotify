@@ -159,7 +159,7 @@ function printUserPlaylists() {
     console.log(userPlaylistObjects[i]);
     var a = $('<a>');
     a.attr({
-      class: 'dropdown-button btn',
+      class: 'dropdown-button btn playlist-btn',
       href: '#',
       "data-activates": 'playlist-dropdown'+(i+1)
     });
@@ -442,7 +442,7 @@ $( "#show-playlists" ).on('click',function() {
   printUserPlaylists();
 });
 
-$( "#show-playlists>.btn" ).on('click',function() {
+$( ".playlist-btn" ).on('click',function() {
   var holderID = $(this).data(spotifyID);
   $('.parent').data(spotifyID);
   $('.parent').html(spotifyID);
