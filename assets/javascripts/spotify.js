@@ -439,8 +439,7 @@ $('.dropdown-row').on('click', function(){
 
 $( "#show-playlists" ).on('click',function() {
   $( "#playlist-pane" ).empty();
-  getUserPlaylistIDs();
-  printUserPlaylists();
+  getUserPlaylistIDs().done(printUserPlaylists());
 });
 
 $( ".playlist-btn" ).on('click',function() {
