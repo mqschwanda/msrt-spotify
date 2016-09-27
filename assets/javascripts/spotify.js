@@ -127,7 +127,7 @@
   var userPlaylistObjects = [];
 
     function getUserPlaylistIDs(){
-      
+
       // Empty out the array (if called another time)
       userPlaylistObjects = [];
 
@@ -136,12 +136,12 @@
           url: "https://api.spotify.com/v1/users/" + userSpotifyId + "/playlists",
           headers: {
             'Authorization': 'Bearer ' + spotifyAccessToken
-          }    
+          }
         }).done(function(userPlaylistResponse){
-            
+
             // Loop Through the Playlists and get the IDs
             for(var i = 0; i < userPlaylistResponse.items.length; i++){
-              
+
               var newPlaylistObject = {
                 name: userPlaylistResponse.items[i].name,
                 playlistID: userPlaylistResponse.items[i].id
@@ -150,9 +150,38 @@
               // Add Playlist IDs to array
               userPlaylistObjects.push(newPlaylistObject);
             }
-              //console.log(userPlaylistObjects)
+              console.log(userPlaylistObjects);
         });
     }
+
+function printUserPlaylists() {
+  for (var i = 0; i < userPlaylistObjects.length; i++) {
+    console.log(userPlaylistObjects[i]);
+    var a = $('<a>');
+    a.attr({
+      class: 'dropdown-button btn',
+      href: '#',
+      'data-activates': 'playlist-dropdown'+(i+1)
+    });
+    a.html('Playlist')
+    var ul = $('<ul>');
+    ul.attr({
+      id: 'playlist-dropdown'+(i+1),
+      class: 'dropdown-content'
+    });
+    var li = $('<li>');
+    var a2 = $('<a>');
+    a2.attr({
+      href: '#',
+      playlistID: userPlaylistObjects[i].playlistID
+    });
+    a2.html('Song');
+    $('#playlist-pane').append(a);
+    $('#playlist-pane').append(ul.append(li.append(a2)));
+
+  }
+
+}
 
 
 

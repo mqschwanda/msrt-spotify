@@ -24,10 +24,10 @@
             <form>
               <div class="input-field">
                 <!-- Dropdown Trigger inside search bar-->
-                <input id="search" type="search" type="text" name="q" placeholder="Search..." class="dropdown-button btn" href="#" data-activates="dropdown1" autocomplete="off"/>
+                <input id="search" type="search" type="text" name="q" placeholder="Search..." class="dropdown-button btn" href="#" data-activates="searchDropdown" autocomplete="off"/>
                 <label for="search"><i id="spyglass" class="material-icons">search</i></label>
                 <!-- Dropdown Structure -->
-                <ul id="dropdown1" class="dropdown-content search-dropdown-content collection">
+                <ul id="searchDropdown" class="dropdown-content search-dropdown-content collection">
                   <li class="dropdown-row">
                       <img id="song-img1" class="search-album-img" src="assets/images/spotify_icon_green.png">
                       <div id="song-title1" class="center-align">Song Title</div>
@@ -91,6 +91,17 @@
         </h5>
         <p id="lyrics">
         </p>
+      </div>
+    </div>
+    <div class="row">
+      <div id="playlist-pane" class="col s12" style="overflow: scroll;" >Watson
+<!-- Dropdown Trigger -->
+<a class='dropdown-button btn' href='#' data-activates='dropdown1'>Drop Me!</a>
+
+<!-- Dropdown Structure -->
+<ul id='dropdown1' class='dropdown-content'>
+  <li><a href="#!">one</a></li>
+</ul>
       </div>
     </div>
   </main>
