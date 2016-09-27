@@ -185,6 +185,8 @@ function printUserPlaylists() {
 
 
 
+
+
 // ------------------------------ Query 3 - Spotify - Use Playlist ID to collect a Song Names / Artists / Album Art / Track IDs ------------------------------
 // **NOTE THIS QUERY LIMIT IS 100, SO IF THE USER PLAYLIST IS >100 SONGS, NOT ALL WILL BE TAKEN
 
@@ -434,7 +436,11 @@ $('.dropdown-row').on('click', function(){
 
 });
 
-
+$( "#show-playlists" ).click(function() {
+  $( "#playlist-pane" ).empty();
+  getUserPlaylistIDs();
+  printUserPlaylists();
+});
 
 
 

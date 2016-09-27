@@ -95,3 +95,14 @@
 #playlist-pane>.btn {
   width: 50%;
 }
+
+#pane {
+  height: 600px;
+}
+.parent, .add-child {
+  width: 100%;
+}
+.add-child {
+    position: relative;
+    top: 40px;
+}
