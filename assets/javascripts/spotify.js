@@ -163,7 +163,7 @@ function printUserPlaylists() {
       href: '#',
       "data-activates": 'playlist-dropdown'+(i+1)
     });
-    a.html('Playlist')
+    a.html(userPlaylistObjects[i].name)
     var ul = $('<ul>');
     ul.attr({
       id: 'playlist-dropdown'+(i+1),
