@@ -155,6 +155,7 @@
     }
 
 function printUserPlaylists() {
+  console.log("doing printUserPlaylists");
   for (var i = 0; i < userPlaylistObjects.length; i++) {
     console.log(userPlaylistObjects[i]);
     var a = $('<a>');
