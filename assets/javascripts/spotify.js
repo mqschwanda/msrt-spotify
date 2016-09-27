@@ -26,8 +26,6 @@
     // Log Out (if needed in future)
     console.log("Log Out URL (if needed in future)...")
     console.log("https://accounts.spotify.com/en/status")
-    getUserPlaylistIDs();
-    printUserPlaylists();
   }
   logInUser();
 
