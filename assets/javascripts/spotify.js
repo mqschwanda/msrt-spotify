@@ -442,6 +442,12 @@ $( "#show-playlists" ).on('click',function() {
   printUserPlaylists();
 });
 
+$( "#show-playlists>.btn" ).on('click',function() {
+  var holderID = $(this).data(spotifyID);
+  $('.parent').data(spotifyID);
+  $('.parent').html(spotifyID);
+});
+
 
 
 
