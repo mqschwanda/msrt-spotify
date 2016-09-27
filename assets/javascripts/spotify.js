@@ -436,7 +436,7 @@ $('.dropdown-row').on('click', function(){
 
 });
 
-$( "#show-playlists" ).click(function() {
+$( "#show-playlists" ).on('click',function() {
   $( "#playlist-pane" ).empty();
   getUserPlaylistIDs();
   printUserPlaylists();
