@@ -437,11 +437,11 @@ $('.dropdown-row').on('click', function(){
 
 });
 
-$( "#show-playlists" ).on('click',function() {
-  $( "#playlist-pane" ).empty();
-  getUserPlaylistIDs();
-  printUserPlaylists();
-});
+// $( "#show-playlists" ).on('click',function() {
+//   $( "#playlist-pane" ).empty();
+//   getUserPlaylistIDs();
+//   printUserPlaylists();
+// });
 
 $( ".playlist-btn" ).on('click',function() {
   var holderID = $(this).data(spotifyID);
@@ -449,6 +449,16 @@ $( ".playlist-btn" ).on('click',function() {
   $('.parent').html(playlistID);
 });
 
+$( "#show-playlists" ).on('click',function() {
+  $( "#playlist-pane" ).empty();
+  var deferred = getUserPlaylistIDs();
+  $.when(deferred).done(function() {
+    printUserPlaylists();
+  }
+});
 
 
-
+// var deferred = geoData();
+// $.when(deferred).done(function() {
+//     console.log('step 3');
+// });
