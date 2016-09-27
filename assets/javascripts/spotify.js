@@ -444,8 +444,8 @@ $( "#show-playlists" ).on('click',function() {
 
 $( ".playlist-btn" ).on('click',function() {
   var holderID = $(this).data(spotifyID);
-  $('.parent').data(spotifyID);
-  $('.parent').html(spotifyID);
+  $('.parent').data(playlistID);
+  $('.parent').html(playlistID);
 });
 
 
