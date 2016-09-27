@@ -1,3 +1,14 @@
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyC15Z-jf7JN0vnlHA_iOiTtMH4YpbyHLDk",
+    authDomain: "msrt-spotify.firebaseapp.com",
+    databaseURL: "https://msrt-spotify.firebaseio.com",
+    storageBucket: "msrt-spotify.appspot.com",
+    messagingSenderId: "552960060669"
+  };
+  firebase.initializeApp(config);
+
+
 // ***************************************** These should be incorporated into main.js and/or index.html *****************************************
 
 
