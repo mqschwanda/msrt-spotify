@@ -161,8 +161,8 @@ function printUserPlaylists() {
     a.attr({
       class: 'dropdown-button btn',
       href: '#',
-      'data-activates': 'playlist-dropdown'+(i+1)
     });
+    a.data('activates', 'playlist-dropdown'+(i+1));
     a.html('Playlist')
     var ul = $('<ul>');
     ul.attr({
