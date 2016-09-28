@@ -5,22 +5,44 @@ var queryURL = "https://api.textgain.com/1/sentiment/?q=" + musixLyrics;
       console.log(queryURL);
       console.log(response);  
    if(response.polarity === -1) {
-    $('#watson-pane').html("Negative")
+    localstorage.setItem('negative', '-1')
    } 
-   if(response.polarity === 0) {
-    $('#watson-pane').html("Neutral")
+   else(response.polarity === 0) {
+    localstorage.setItem('neutral', '0')
    }
-   if(response.polarity === 1) {
-    $('#watson.pane').html("Positive")
+   else(response.polarity === 1) {
+    localstorage.setItem('positive', '1')
    }
     });
 };
 
-function polaritySearch(){
-  var queryURL = "https://api.textgain.com/1/sentiment/?q=" + 
+function polarityPlaylistSearch(){
+  var song = playlist.JSON.stringify();
+  var queryURL = "https://api.textgain.com/1/sentiment/?q=" + song;
   $.ajax({url: queryURL, method: 'GET'})
   .done(function(response){
     console.log(queryURL);
     console.log(response);
-  })
+    if(response.polarity === 1) {
+      localstorage.setItem('postive', '1');
+    }
+    else(rating === 0) {
+      localstorage.setItem('neutral', '0');
+    }
+    else(rating === -1) {
+      localstorage.setItem('negative', '-1');
+    }
+
+    }
+  });
 }
+
+function recommendPlaylist(){
+
+}
+
+
+
+
+
+
