@@ -14,7 +14,7 @@
 
   // You dont need to keep this function, i just found it useful to call it from the console when troubleshooting
   function logInUser(){
-    
+
     var msrtSpotifyClientId = "f0bec57f45dd42bead54f9a76d931a9c";
 
     // Log In and Link to MSRT App
@@ -91,7 +91,7 @@
 
       // Run an initial search to identify the song's (track) unique Spotify ID
       var queryURL1 = "https://api.spotify.com/v1/search?q=" + songTitle + "&type=track";
-      
+
         $.ajax({url: queryURL1, method: 'GET'}).done(function(songResponse) {
 
           // Globally store the Song Search Response
@@ -144,7 +144,8 @@
 
               var newPlaylistObject = {
                 name: userPlaylistResponse.items[i].name,
-                playlistID: userPlaylistResponse.items[i].id
+                playlistID: userPlaylistResponse.items[i].id,
+                plalyistChildren: []
               };
 
               // Add Playlist IDs to array
@@ -156,32 +157,20 @@
 
 function printUserPlaylists() {
   console.log("doing printUserPlaylists");
+  $('#playlist-pane').empty();
+  var div = $('<div>');
+  div.addClass('collection');
   for (var i = 0; i < userPlaylistObjects.length; i++) {
     console.log(userPlaylistObjects[i]);
     var a = $('<a>');
     a.attr({
-      class: 'dropdown-button btn playlist-btn',
-      href: '#',
-      "data-activates": 'playlist-dropdown'+(i+1)
+      class: 'collection-item',
+      href: '#'
     });
     a.html(userPlaylistObjects[i].name)
-    var ul = $('<ul>');
-    ul.attr({
-      id: 'playlist-dropdown'+(i+1),
-      class: 'dropdown-content'
-    });
-    var li = $('<li>');
-    var a2 = $('<a>');
-    a2.attr({
-      href: '#',
-      playlistID: userPlaylistObjects[i].playlistID
-    });
-    a2.html('Song');
-    $('#playlist-pane').append(a);
-    $('#playlist-pane').append(ul.append(li.append(a2)));
-
+    div.append(a);
   }
-
+  $('#playlist-pane').append(div);
 }
 
 
@@ -195,7 +184,7 @@ function printUserPlaylists() {
   var currentPlaylistSongObjects = [];
 
     function getUserPlaylistSongs(currentPlaylistID){
-        
+
       // Empty out the object (if called another time)
       currentPlaylistSongObjects = [];
 
@@ -206,10 +195,10 @@ function printUserPlaylists() {
               'Authorization': 'Bearer ' + spotifyAccessToken
             }
           }).done(function(currentPlaylistResponse){
-             
+
             // Loop Through the Playlists and get the IDs
             for(var i = 0; i < currentPlaylistResponse.items.length; i++){
-              
+
               var newSongObject = {
                 songName: currentPlaylistResponse.items[i].track.name,
                 songID: currentPlaylistResponse.items[i].track.id,
@@ -221,7 +210,7 @@ function printUserPlaylists() {
               currentPlaylistSongObjects.push(newSongObject);
             }
               //console.log(currentPlaylistSongObjects)
-    
+
           });
     }
 
@@ -233,7 +222,7 @@ function printUserPlaylists() {
   var songIDsToBeGivenToParent = [];
 
   function addChildtoParentPlaylist(parentPlaylistID, childPlaylistID){
-    
+
     // Get a Parent Object
     getUserPlaylistSongs(parentPlaylistID);
 
@@ -258,15 +247,15 @@ function printUserPlaylists() {
           for(var k = 0; k < parentObject.length; k++){
             parentArray.push(parentObject[k].songID);
           }
-          
+
           // Loop through child and compare against the parent values
           for(var i = 0; i < childObject.length; i++){
-           
+
             // Test if current song in child belongs to anything in the parent, if no, then add it to the queue of songs to add
             if(parentArray.indexOf(childObject[i].songID) == -1){
               songIDsToBeGivenToParent.push(childObject[i].songID)
             }
-            
+
           }
 
           // AJAX Call to update the user's parent playlist
@@ -285,7 +274,7 @@ function printUserPlaylists() {
               url: addToParentPlaylistURL,
               headers: {
                 'Authorization': 'Bearer ' + spotifyAccessToken
-              }    
+              }
             });
 
 
@@ -294,10 +283,6 @@ function printUserPlaylists() {
       }, 1000); // end child timer
 
     }, 1000); // end parent timer
-    
-
-
-    
 
   }
 
@@ -437,28 +422,14 @@ $('.dropdown-row').on('click', function(){
 
 });
 
-// $( "#show-playlists" ).on('click',function() {
-//   $( "#playlist-pane" ).empty();
-//   getUserPlaylistIDs();
-//   printUserPlaylists();
-// });
-
-$( ".playlist-btn" ).on('click',function() {
-  var holderID = $(this).data(spotifyID);
-  $('.parent').data(playlistID);
-  $('.parent').html(playlistID);
-});
-
 $( "#show-playlists" ).on('click',function() {
   $( "#playlist-pane" ).empty();
-  var deferred = getUserPlaylistIDs();
-  $.when(deferred).done(function() {
-    printUserPlaylists();
-  });
+  getUserPlaylistIDs();
+  printUserPlaylists();
 });
 
 
-// var deferred = geoData();
-// $.when(deferred).done(function() {
-//     console.log('step 3');
-// });
+
+
+
+
