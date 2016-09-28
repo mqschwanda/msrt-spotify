@@ -41,7 +41,7 @@
   #spotify-pane {
    /* background-image: url("../images/spotify_icon_green.png");
     background-repeat: no-repeat;*/
-    background-color: black;
+    background-color: #191414;
     background-size: 100%;
     color: #1DB954;
   }
@@ -91,3 +91,4 @@
 .dropdown-row.valign-wrapper {
   text-align: center;
 }
+
