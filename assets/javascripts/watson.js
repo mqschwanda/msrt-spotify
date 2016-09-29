@@ -1,45 +1,81 @@
-function displayEmotion(){
+/*function polarityPlaylistSearch(){
+  getUserPlaylistSongs("3ekUHhJ6QWQ6tM0KHO525Y")
+   
+
+   setTimeout(function(){
+    console.log(currentPlaylistSongObjects)
+
+    for(var i = 0; i < currentPlaylistSongObjects.length; i++){
+
+      musixTrackId = "";
+
+      var currentSongName = currentPlaylistSongObjects[i].songName;
+      var currentArtistName = currentPlaylistSongObjects[i].artistName;
+
+    
+      var currentAlbumName = "";
+      queryMusixForId(currentArtistName, currentSongName, "")
+       
+
+       /*break out after 5 sec to be safe*/
+      //setTimeout(function(){ 
+      //while(musixTrackId == ""){
+        /*Do nothing*/
+      //}
+      //musixTrackId == "broken" 
+    //}, 5000);
+
+
+       //console.log(currentSongName)
+  
+  //}
+
+   // }, 1000); // end compare timer
+
+//}*/
+
+//Running the playlist lyrics through the Text Gain API
+var polarity;
+var polarityResponse;
+function polarityPlaylistSearch(){
+  var queryURL = "https://api.textgain.com/1/sentiment/?q=" + musixLyrics;
+  $.ajax({url: queryURL, method: 'GET'})
+   .done(function(musicPolarityResponse){
+     console.log(queryURL);
+     console.log(musicPolarityResponse);
+
+     //Globally store the polarity
+     polarityResponse = polarity;
+
+     //Collect the polarity and confidence
+     polarity = musicPolarityResponse.polarity.confidence;
+
+     //Initiate next AJAX call
+     polarityPlaylistSearch(musixLyrics);
+    });
+}
+
+//Running the current song through the Text Gain API
+function currentSongPolarity(){
 var queryURL = "https://api.textgain.com/1/sentiment/?q=" + musixLyrics;
   $.ajax({url: queryURL, method: 'GET'})
-    .done(function(response) {
+    .done(function(currentPolarity) {
       console.log(queryURL);
-      console.log(response);  
-   if(response.polarity === -1) {
-    localstorage.setItem('negative', '-1')
-   } 
-   else(response.polarity === 0) {
-    localstorage.setItem('neutral', '0')
-   }
-   else(response.polarity === 1) {
-    localstorage.setItem('positive', '1')
-   }
-    });
-};
+      console.log(currentPolarity); 
 
-function polarityPlaylistSearch(){
-  var song = playlist.JSON.stringify();
-  var queryURL = "https://api.textgain.com/1/sentiment/?q=" + song;
-  $.ajax({url: queryURL, method: 'GET'})
-  .done(function(response){
-    console.log(queryURL);
-    console.log(response);
-    if(response.polarity === 1) {
-      localstorage.setItem('postive', '1');
-    }
-    else(rating === 0) {
-      localstorage.setItem('neutral', '0');
-    }
-    else(rating === -1) {
-      localstorage.setItem('negative', '-1');
-    }
+      //Globally store the polarity
+      polarityResponse = polarity;
 
-    }
-  });
-}
+      //Collect the polarity and confidence
+      polarity = musicPolarityResponse.polarity.confidence; 
+    });  
+} 
 
-function recommendPlaylist(){
 
-}
+polarityPlaylistSearch();
+currentSongPolarity();
+
+
 
 
 
