@@ -306,7 +306,7 @@ $(document).ready(function(){
 
   makeSignInLink(); // Add hyperlink to sign in button
   // ADD BACK IN AFTER TESTING
-  // getUserSpotifyId(); // pull user ID from current page's URL
+  getUserSpotifyId(); // pull user ID from current page's URL
   getUserPlaylistIDs(); // Get all playlists from user
 
   // function timeout to allow AJAX call to finish
