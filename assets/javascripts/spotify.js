@@ -1,12 +1,9 @@
 
 // xxxxxxxxxxxxxxxxxxxxxxxxxxx This is just Tom's scratch work for testing... It worked dude! Added songs to my playlist! xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 var userSpotifyId = "12122110676"; //when done, uncommment the intiailization below
-var spotifyAccessToken = "BQDuGOEaXVGf52EvvMyi2bLnlnUYYcUkgxwnXmqCIknDcWVk_zMxuGWDpJPeFCHMB5Z3FD9uO8J14f4gDokAMznHBKi9gEQkBB9V1uii3shhPXVeeNohcXrPMlRDBRSb8TzqXJccdku_1efHf-suAEAJNcWOFMevseRn1Ty29YVOZKjcFtVXHrtuxW-wVWkeudU2JdmLKdv1isdRhCs0EKWqJxNKN8smtc3IphtgJIYHm4dk5ZIAplOXn-CanKq2ZHLsh2P-NPjjVKEp";
+var spotifyAccessToken = "BQBSx0E8daQE1aPMKMpwpv8qYnoMIvUlbC1mK0OlyPdKAQnSLd87FamCr9GQR6uD_VGhBuwX8g1F3Wkpdrt36KV6gfxNMksgD_eTlIckn8TL00oOx6DwRu0oTST5Wtt8xEXcZkH7DeRvQtDx31CA4sMt-ag_PNjXyHINHrNMWhKPkYLOgeb2PVkuq2VrNDEDf-I7icg9LZp2raVm0ZP_a1atexPOeWNrxfWSWO39QgcS9oHPPixPF-SyEASYxzA3T98g37zX2H6Roh3r";
 //addChildtoParentPlaylist("3ekUHhJ6QWQ6tM0KHO525Y", "4ifW6KdwgV7Ugk38iu6ukC")
 // xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-getUserPlaylistIDs()  
-getUserPlaylistSongs("3ekUHhJ6QWQ6tM0KHO525Y")
-
 
 // ---------------------------------------------------------------------------
 
@@ -161,7 +158,7 @@ getUserPlaylistSongs("3ekUHhJ6QWQ6tM0KHO525Y")
 
   // Initialize current playlist object
   var currentPlaylistSongObjects = [];
-  var songLyricsForWatson = [];
+
     function getUserPlaylistSongs(currentPlaylistID){
         
       // Empty out the object (if called another time)
@@ -170,11 +167,12 @@ getUserPlaylistSongs("3ekUHhJ6QWQ6tM0KHO525Y")
         // AJAX Call to get Selected Playlist's Songs and other info
           $.ajax({
             url: "https://api.spotify.com/v1/users/" + userSpotifyId + "/playlists/" + currentPlaylistID + "/tracks",
+            async : false,
             headers: {
               'Authorization': 'Bearer ' + spotifyAccessToken
             }
           }).done(function(currentPlaylistResponse){
-             var hasRun = false;
+
             // Loop Through the Playlists and get the IDs
             for(var i = 0; i < currentPlaylistResponse.items.length; i++){
               
@@ -187,15 +185,8 @@ getUserPlaylistSongs("3ekUHhJ6QWQ6tM0KHO525Y")
 
               // Add Song Attributes Object to the PLay Array
               currentPlaylistSongObjects.push(newSongObject);
-            }
-            hasRun = true
-            if(hasRun){
-              $.each(currentPlaylistSongObjects, function(k, v){
-                queryMusixForId(v.artistName, v.songName, "");
-                songLyricsForWatson.push(musixLyrics)
-              });
-            }           
-    
+            }     
+            
           });
     }
 
@@ -294,7 +285,7 @@ getUserPlaylistSongs("3ekUHhJ6QWQ6tM0KHO525Y")
        // QUERY 1 - Run an initial search to identify the song's (track) unique Musix ID
       var queryMusixForIdURL = "https://crossorigin.me/" + "http://api.musixmatch.com/ws/1.1/" + "track.search?q_track=" + trackName + "&q_artist=" + artistName + "&q_album=" + albumName + "&f_has_lyrics=1" + "&format=json" + "&apikey=" + tomsMusixAPIkey;
 
-      $.ajax({url: queryMusixForIdURL, method: 'GET'}).done(function(musixIdResponse) {
+      $.ajax({url: queryMusixForIdURL, async : false, method: 'GET'}).done(function(musixIdResponse) {
 
         // Response for Id query needed to be parsed
         musixIdResponse = JSON.parse(musixIdResponse);
@@ -317,11 +308,11 @@ getUserPlaylistSongs("3ekUHhJ6QWQ6tM0KHO525Y")
       // QUERY 2 - Search with the Musix ID to get back Track Lyrics
       var queryMusixForLyricsURL = "https://crossorigin.me/" + "http://api.musixmatch.com/ws/1.1/" + "track.lyrics.get?track_id=" + musixTrackId + "&apikey=" + tomsMusixAPIkey;
 
-      $.ajax({url:  queryMusixForLyricsURL, method: 'GET'}).done(function(musixLyricsResponse){
+      $.ajax({url:  queryMusixForLyricsURL, async : false, method: 'GET'}).done(function(musixLyricsResponse){
 
         // Response for Id query needed to be parsed
         musixLyricsResponse = JSON.parse(musixLyricsResponse);
-        console.log(musixLyricsResponse);
+        
         // Globally store the Lyrics Search Response
         musixLyricsResult = musixLyricsResponse;
 
