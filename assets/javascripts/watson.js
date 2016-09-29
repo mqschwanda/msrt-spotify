@@ -37,22 +37,22 @@ function polarityPlaylistSearch(playlistIDforWatson){
 sampleWatsonLyricsResult = ["See me comin' to town with my soul Straight down …s Broke down out in a ditch of old rubbish ...  ", "I heard sirens in my head From the first time tha…opes up Cause then I'll never get let down ...  ", "So if you're lonely, you know I'm here waiting fo…You don't know You say, you don't go ...  ", "Giddy up, giddy it up Giddy up, giddy up  Wanna m…our life Live it once, can't live it twice ...  ", "I've been alone with you inside my mind And in my… what to do And I want to tell you so much ...  "];
 console.log(sampleWatsonLyricsResult)
 
-sentiment = Sentimood();
-var analyze = sentiment.analyze(sampleWatsonLyricsResult),
-  positivity = sentiment.positivity(),
-  negativity = sentiment.negativity();
 
-  analyze(sampleWatsonLyricsResult);
+function sentimoodPlaylistSearch(){
 
-
-
+}
 
 
 //Running the playlist lyrics through the Text Gain API
+
+
+//Trying a new api that allows bulk text analysis.
+
 /*var polarity;
 var polarityResponse;
 function watsonPlaylistSearch(){
-  var queryURL = "https://api.textgain.com/1/sentiment/?q=" + polarityPlaylistSearch;
+  var apiKey = "f0434f8e6aa029f895c356aac086c9efe88f55b8"
+  var queryURL = "https://api.sentity.io/v1/sentiment=" + apiKey;
   $.ajax({url: queryURL, async : false, method: 'GET'})
    .done(function(musicPolarityResponse){
      console.log(queryURL);
@@ -71,7 +71,8 @@ function watsonPlaylistSearch(){
 
 Running the current song through the Text Gain API
 function currentSongPolarity(){
-var queryURL = "https://api.textgain.com/1/sentiment/?q=" + musixLyrics;
+  var apiKey = "f0434f8e6aa029f895c356aac086c9efe88f55b8"
+  var queryURL = "https://api.sentity.io/v1/sentiment=" + apiKey;
   $.ajax({url: queryURL, method: 'GET'})
     .done(function(currentPolarity) {
       console.log(queryURL);
