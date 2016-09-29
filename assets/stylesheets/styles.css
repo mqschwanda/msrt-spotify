@@ -2,14 +2,18 @@
     /* Brand Colors */
     /* White:     #ffffff */
     /* Sand:      #ecebe8 */
-    /* Grey:      #828282 */
+    /* Grey:      #88898c */
     /* Dark Grey: #282828 */
-    /* Black:     #191414 */
+    /* Black:     #121314 */
     /* Green:     #1DB954 */
 
     /* Font */
     html {
       font-family: 'Circular Spotify', 'Montserrat', 'Helvetica Neue', Arial, Sans Serif;
+    }
+
+    nav {
+      background-color: #1c1c1f;
     }
 
 /* Navbar */
@@ -38,19 +42,6 @@
     }
 
 /* Content */
-  #spotify-pane {
-   /* background-image: url("../images/spotify_icon_green.png");
-    background-repeat: no-repeat;*/
-    background-color: black;
-    background-size: 100%;
-    color: #1DB954;
-  }
-  #watson-pane {
-    /*background-image: url("../images/watson_icon.png");
-    background-repeat: no-repeat;*/
-    background-color: white;
-    background-size: 100%;
-  }
 
   #spotify-pane, #watson-pane {
     text-align: center;
@@ -96,8 +87,8 @@
   width: 50%;
 }
 
-#pane {
-  height: 600px;
+#pane, #playlist-pane {
+  height: 300px;
 }
 .parent, .add-child {
   width: 100%;
@@ -105,4 +96,24 @@
 .add-child {
     position: relative;
     top: 40px;
+}
+
+.float-left {
+  float: left;
+}
+
+#max-content{
+  width: -webkit-max-content;
+  width: -moz-max-content;
+  width: max-content;
+  display: inline-block;
+}
+
+.brand-logo {
+  background-image: url("../images/spotify_logo_white.png");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  width: 150px;
+  height: 64px; /*Nav height*/
 }
