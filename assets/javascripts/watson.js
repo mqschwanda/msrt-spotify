@@ -38,21 +38,22 @@ sampleWatsonLyricsResult = ["See me comin' to town with my soul Straight down â€
 console.log(sampleWatsonLyricsResult)
 
 
-function sentimoodPlaylistSearch(){
+/*function sentimoodPlaylistSearch(){
 
-}
+}*/
 
 
 //Running the playlist lyrics through the Text Gain API
 
 
 //Trying a new api that allows bulk text analysis.
+//sentity.io
 
-/*var polarity;
+var polarity;
 var polarityResponse;
 function watsonPlaylistSearch(){
-  var apiKey = "f0434f8e6aa029f895c356aac086c9efe88f55b8"
-  var queryURL = "https://api.sentity.io/v1/sentiment=" + apiKey;
+  
+  var queryURL = "https://api.sentity.io/v1/sentiment/account?api_key=f0434f8e6aa029f895c356aac086c9efe88f55b8" + sampleWatsonLyricsResult;
   $.ajax({url: queryURL, async : false, method: 'GET'})
    .done(function(musicPolarityResponse){
      console.log(queryURL);
@@ -65,11 +66,11 @@ function watsonPlaylistSearch(){
      //polarity = musicPolarityResponse.polarity.confidence;
 
      //Initiate next AJAX call
-     watsonPlaylistSearch(sampleWatsonLyricsResult);
+     //watsonPlaylistSearch(sampleWatsonLyricsResult);
     });
 }
 
-Running the current song through the Text Gain API
+/*Running the current song through the Text Gain API
 function currentSongPolarity(){
   var apiKey = "f0434f8e6aa029f895c356aac086c9efe88f55b8"
   var queryURL = "https://api.sentity.io/v1/sentiment=" + apiKey;
@@ -84,10 +85,10 @@ function currentSongPolarity(){
       //Collect the polarity and confidence
       polarity = musicPolarityResponse.polarity.confidence; 
     });  
-} 
+} */
 
 
-watsonPlaylistSearch();*/
+watsonPlaylistSearch();
 /*currentSongPolarity();
 */
 
