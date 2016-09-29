@@ -8,6 +8,7 @@
   <!-- Import "Montserrat" Google font -->
   <link href="https://fonts.googleapis.com/css?family=Montserrat" rel="stylesheet">
   <link type="text/css" rel="stylesheet" href="assets/stylesheets/materialize.css"  media="screen,projection"/>
+    <link rel="stylesheet" type="text/css" href="assets/stylesheets/spotify.css">
   <link rel="stylesheet" type="text/css" href="assets/stylesheets/styles.css">
   <!--Let browser know website is optimized for mobile-->
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
@@ -17,7 +18,7 @@
     <nav>
       <div class="nav-wrapper">
         <!-- Logo -->
-        <a href="#" class="brand-logo center">MSRT</a>
+        <a href="#" class="brand-logo center"></a>
         <div class="row">
           <!-- Search Bar -->
           <div class="col s10">
@@ -76,28 +77,25 @@
   <main>
     <div class="row">
       <div id="playlist-pane" class="col s4" style="overflow: scroll;">
-        <div class="collection">
-          <a href="#!" class="collection-item">Playlists</a>
-          <a href="#!" class="collection-item">Playlists</a>
-          <a href="#!" class="collection-item">Playlists</a>
-          <a href="#!" class="collection-item">Playlists</a>
-        </div>
       </div>
-      <div id="pane" class="col s8" style="overflow: scroll;">
-        <div class="col s6">
-          <div class="collection">
-            <a href="#!" class="collection-item active">Playlists</a>
-            <a href="#!" class="collection-item">Playlists</a>
-          </div>
-        </div>
-        <div class="col s6">
-          <div class="collection">
-            <a href="#!" class="collection-item">Playlists</a>
-            <a href="#!" class="collection-item">Playlists</a>
-            <a href="#!" class="collection-item">Playlists</a>
-            <a href="#!" class="collection-item red">Add Playlists</a>
-          </div>
-        </div>
+      <div id="pane" class="col s8" style="overflow: scroll; overflow-x: scroll;">
+
+<div id="max-content">
+  <div class="float-left">
+    <div class="collection">
+      <a id="selected-playlist" href="#!" class="collection-item active select-playlist">Click playlist to select</a>
+    </div>
+  </div>
+  <div class="float-left">
+    <div class="collection">
+      <a href="#!" class="collection-item">Playlists</a>
+      <a href="#!" class="collection-item">Playlists</a>
+      <a href="#!" class="collection-item">Playlists</a>
+      <a href="#!" class="collection-item red">Add Playlists</a>
+    </div>
+  </div>
+</div>
+
       </div>
     </div>
     <div class="row">

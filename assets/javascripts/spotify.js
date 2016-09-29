@@ -1,226 +1,152 @@
+// VARIABLE DELCLERATIONS
+
+  var userSpotifyId;
+  var spotifySongResult;
+  var userPlaylistObjects = []; // Initialize array of playlist objects
+  var currentPlaylistSongObjects = []; // Initialize current playlist object
+  var parentObject;
+  var childObject;
+  var songIDsToBeGivenToParent = [];
+  var tomsMusixAPIkey = "1ff5234a0012c537709d815bfc88a85d"; // Musix API Key
+  var musixTrackId;
+  var musixLyrics; // just the lyrics
+  var musixLyricsResult; // whole object
 
 // xxxxxxxxxxxxxxxxxxxxxxxxxxx This is just Tom's scratch work for testing... It worked dude! Added songs to my playlist! xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-//var userSpotifyId = "12122110676"; //when done, uncommment the intiailization below
-//var spotifyAccessToken = "BQBCIZw6RQl_iJ5a1kVYwVtJoCvzy43IsbqKNR768H-ELLSxpH0K3oXnphrY6JBdrVnmv21aWivs0iHvUsIeoaZgu76Lab1HirA7jEkLTJrqACuUxT8ERoIpBB_ezGYvQiHvWmPo3y5PwksY4k4h7yGx6pf1KXdrwYgs1RNdnIjzhCTUG5lW5yfrUzjYliEgzUnx-om2p-Akzt3BASsZqg8kvbdXQxWorpAoxPP_YdCNWgp8r8FprB-ELIWd7Sgjf-AZCpDpo30HcYpG";
+userSpotifyId = "mqschwanda"; //when done, uncommment the intiailization below
+var spotifyAccessToken = "BQA_mcIiETbiPPmdFQFLozHwrAlrveVzSeNvp-vogeGCkD0ueR3P3rp2eiOsDsZ_umPXlffPseyGAa8zNqYC2barRxMNn5G8VMX4ivHU1irzxZGmV2p0gdDGJol-72OgYkHPcn7qMJ0QIpDyYJJKcu3rvIYPvx4W5vnbxey1NpsGI2eMMbSMuIDtB5hibFuAbo2nd6NIKTQq01jXiVv-ivqwIp6ctWfxIxlmfB_4ojh1o_J0nxdeGKNdvf4vApyUdXy6zvRb5Sehbb4";
 //addChildtoParentPlaylist("3ekUHhJ6QWQ6tM0KHO525Y", "4ifW6KdwgV7Ugk38iu6ukC")
 // xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
+// FUNCTION DELCLERATIONS
 
-
-
-// ---------------------------------------------------------------------------
-
-  // LOOK IN THE CONSOLE LOG FOR THE HYPERLINKS. WE NEED TO MAKE hyperlinks for the login in button... and im thinking a log out button too. 
-
-  // You dont need to keep this function, i just found it useful to call it from the console when troubleshooting
-  function logInUser(){
-
+  // Generate link for sign in button using application ID from Spotify
+  function makeSignInLink(){
     var msrtSpotifyClientId = "f0bec57f45dd42bead54f9a76d931a9c";
 
     // Log In and Link to MSRT App
     var queryURLforSpotifyToken = "https://accounts.spotify.com/authorize/?client_id=" + msrtSpotifyClientId + "&response_type=token&redirect_uri=http%3A%2F%2Fmsrt-spotify.herokuapp.com%2F&scope=user-read-private%20user-read-email%20playlist-modify-public%20playlist-modify-private%20playlist-read-private%20playlist-read-collaborative";
-    console.log("Log In URL...")
-    console.log(queryURLforSpotifyToken);
+    // console.log("Log In URL...")
+    // console.log(queryURLforSpotifyToken);
+
     $('#sign-in').attr('href', queryURLforSpotifyToken);
 
     // Log Out (if needed in future)
-    console.log("Log Out URL (if needed in future)...")
-    console.log("https://accounts.spotify.com/en/status")
+    // console.log("Log Out URL (if needed in future)...")
+    // console.log("https://accounts.spotify.com/en/status")
   }
-  logInUser();
 
+  // Pull user ID from current page's URL and store for later use
+  function getUserSpotifyId(){
+    // Check for a hash symbol in the URL (A successful login will bring the user to a URL with the Access Token encoded as a hash)
+    if(window.location.hash != ""){
+      // Collect the Access Token from the URL
+      var cropToGetToken = window.location.hash;
+      cropToGetToken = cropToGetToken.split("#access_token=");
+      cropToGetToken = cropToGetToken[1];
+      cropToGetToken = cropToGetToken.split("&");
+      cropToGetToken = cropToGetToken[0];
 
-// ******************************************** END OF MAIN.JS and/or index.html ADDITIONS ********************************************************************
+      // Collect the access token from the cropped window hash
+      spotifyAccessToken = cropToGetToken;
 
+      // AJAX Call to get the User Information (using the Access Token)
+      $.ajax({
+        url: 'https://api.spotify.com/v1/me',
+        headers: {
+          'Authorization': 'Bearer ' + spotifyAccessToken
+        },
+        success: function(userInfoResponse) {
+          // console.log(userInfoResponse)
 
-
-
-
-// ============================================== Spotify API Queries ==============================================
-
-
-
-  // ------------------------------ Query 0 - Spotify - Search for User's unique ID ------------------------------
-    //var userSpotifyId;
-    //var spotifyAccessToken;
-
-    // On page load, check the current URL
-    $(document).ready(function(){
-
-      // Check for a hash symbol in the URL (A successful login will bring the user to a URL with the Access Token encoded as a hash)
-      if(window.location.hash != ""){
-
-        // Collect the Access Token from the URL
-        var cropToGetToken = window.location.hash;
-        cropToGetToken = cropToGetToken.split("#access_token=");
-        cropToGetToken = cropToGetToken[1];
-        cropToGetToken = cropToGetToken.split("&");
-        cropToGetToken = cropToGetToken[0];
-
-        // Collect the access token from the cropped window hash
-        spotifyAccessToken = cropToGetToken;
-
-        // AJAX Call to get the User Information (using the Access Token)
-        $.ajax({
-          url: 'https://api.spotify.com/v1/me',
-          headers: {
-            'Authorization': 'Bearer ' + spotifyAccessToken
-          },
-          success: function(userInfoResponse) {
-            console.log(userInfoResponse)
-
-            // Collect the User's Spotify Id
-            userSpotifyId = userInfoResponse.id;
-
-            // Collect the User's Playlists
-            // ***Maybe add a call to the getUserPlaylistIDs() here, if we do, then we need to intialize userPlaylistObjects at the top of the page
-          }
-        });
-      }
-    });
-
-
-
-  // ------------------------------ Query 1 - Spotify - Search for Track ID ------------------------------
-    var spotifySongResult;
-
-    function spotifySongSearch(songTitle){
-
-      // Replace any spaces with a plus sign for query
-      songTitle = songTitle.trim().replace(/ /g, "+");
-
-      // Run an initial search to identify the song's (track) unique Spotify ID
-      var queryURL1 = "https://api.spotify.com/v1/search?q=" + songTitle + "&type=track";
-
-        $.ajax({url: queryURL1, method: 'GET'}).done(function(songResponse) {
-
-          // Globally store the Song Search Response
-          spotifySongResult = songResponse;
-
-
-          // Wait for query to finish and then print result
-          printTopResults();
-
-        });
-
+          // Collect the User's Spotify Id
+          userSpotifyId = userInfoResponse.id;
+          // Collect the User's Playlists
+          // ***Maybe add a call to the getUserPlaylistIDs() here, if we do, then we need to intialize userPlaylistObjects at the top of the page
+        }
+      });
     }
-
-    function printTopResults() {
-      // for each drop down result
-      for (var i = 0; i < 5; i++) {
-        var iPlus = i+1;
-        $("#song-img"+iPlus).attr('src', spotifySongResult.tracks.items[i].album.images[0].url);
-        $("#song-img"+iPlus).parent().data('spotifyID', spotifySongResult.tracks.items[i].id);
-        // console.log("----- Spotify ID -----");
-        // console.log($("#song-img"+iPlus).data('spotifyID'));
-        $("#song-title"+iPlus).html(spotifySongResult.tracks.items[i].name);
-        $("#song-album"+iPlus).html(spotifySongResult.tracks.items[i].album.name);
-        $("#song-artist"+iPlus).html(spotifySongResult.tracks.items[i].artists[0].name);
-      }
-    }
-
-
-
-  // ------------------------------ Query 2 - Spotify - Use User's Spotify ID to collect their Playlis Names and IDs ------------------------------
-
-  // Initialize array of Playlist Objects
-  var userPlaylistObjects = [];
-
-    function getUserPlaylistIDs(){
-
-      // Empty out the array (if called another time)
-      userPlaylistObjects = [];
-
-        // AJAX Call to get the User's Playlists (using the Access Token)
-        $.ajax({
-          url: "https://api.spotify.com/v1/users/" + userSpotifyId + "/playlists",
-          headers: {
-            'Authorization': 'Bearer ' + spotifyAccessToken
-          }
-        }).done(function(userPlaylistResponse){
-
-            // Loop Through the Playlists and get the IDs
-            for(var i = 0; i < userPlaylistResponse.items.length; i++){
-
-              var newPlaylistObject = {
-                name: userPlaylistResponse.items[i].name,
-                playlistID: userPlaylistResponse.items[i].id,
-                plalyistChildren: []
-              };
-
-              // Add Playlist IDs to array
-              userPlaylistObjects.push(newPlaylistObject);
-            }
-              console.log(userPlaylistObjects);
-        });
-    }
-
-function printUserPlaylists() {
-  console.log("doing printUserPlaylists");
-  $('#playlist-pane').empty();
-  var div = $('<div>');
-  div.addClass('collection');
-  for (var i = 0; i < userPlaylistObjects.length; i++) {
-    console.log(userPlaylistObjects[i]);
-    var a = $('<a>');
-    a.attr({
-      class: 'collection-item',
-      href: '#'
-    });
-    a.html(userPlaylistObjects[i].name)
-    div.append(a);
   }
-  $('#playlist-pane').append(div);
-}
 
+  // Pull playlist information from user's account
+  function getUserPlaylistIDs(){
+    // Empty out the array (if previously called set)
+    userPlaylistObjects = [];
 
+      // AJAX Call to get the User's Playlists (using the Access Token)
+      $.ajax({
+        url: "https://api.spotify.com/v1/users/" + userSpotifyId + "/playlists",
+        headers: {
+          'Authorization': 'Bearer ' + spotifyAccessToken
+        }
+      }).done(function(userPlaylistResponse){
 
+          // Loop Through the Playlists and get the IDs
+          for(var i = 0; i < userPlaylistResponse.items.length; i++){
 
+            var newPlaylistObject = {
+              name: userPlaylistResponse.items[i].name,
+              playlistID: userPlaylistResponse.items[i].id,
+              plalyistChildren: []
+            };
 
-// ------------------------------ Query 3 - Spotify - Use Playlist ID to collect a Song Names / Artists / Album Art / Track IDs ------------------------------
-// **NOTE THIS QUERY LIMIT IS 100, SO IF THE USER PLAYLIST IS >100 SONGS, NOT ALL WILL BE TAKEN
+            // Add Playlist IDs to array
+            userPlaylistObjects.push(newPlaylistObject);
+          }
+            console.log(userPlaylistObjects);
+      });
+  }
 
-  // Initialize current playlist object
-  var currentPlaylistSongObjects = [];
-
-    function getUserPlaylistSongs(currentPlaylistID){
-
-      // Empty out the object (if called another time)
-      currentPlaylistSongObjects = [];
-
-        // AJAX Call to get Selected Playlist's Songs and other info
-          $.ajax({
-            url: "https://api.spotify.com/v1/users/" + userSpotifyId + "/playlists/" + currentPlaylistID + "/tracks",
-            headers: {
-              'Authorization': 'Bearer ' + spotifyAccessToken
-            }
-          }).done(function(currentPlaylistResponse){
-
-            // Loop Through the Playlists and get the IDs
-            for(var i = 0; i < currentPlaylistResponse.items.length; i++){
-
-              var newSongObject = {
-                songName: currentPlaylistResponse.items[i].track.name,
-                songID: currentPlaylistResponse.items[i].track.id,
-                artistName: currentPlaylistResponse.items[i].track.artists[0].name,
-                //albumCoverLink: currentPlaylistResponse.items[i].track.album.images[0].url
-              };
-
-              // Add Song Attributes Object to the PLay Array
-              currentPlaylistSongObjects.push(newSongObject);
-            }
-              //console.log(currentPlaylistSongObjects)
-
-          });
+  // print playlist results in playlist pane
+  function printUserPlaylists() {
+    $('#playlist-pane').empty();
+    var div = $('<div>');
+    div.addClass('collection');
+    for (var i = 0; i < userPlaylistObjects.length; i++) {
+      var a = $('<a>');
+      a.attr({
+        class: 'collection-item select-playlist',
+        href: '#!'
+      });
+      a.data('playlistObject', userPlaylistObjects[i]);
+      a.html(userPlaylistObjects[i].name);
+      div.append(a);
     }
+    $('#playlist-pane').append(div);
+  }
 
+  // Use Playlist ID to collect a Song Names / Artists / Album Art / Track IDs
+  // **NOTE THIS QUERY LIMIT IS 100, SO IF THE USER PLAYLIST IS >100 SONGS, NOT ALL WILL BE TAKEN
+  function getUserPlaylistSongs(currentPlaylistID){
+    // Empty out the object (if called another time)
+    currentPlaylistSongObjects = [];
 
+    // AJAX Call to get Selected Playlist's Songs and other info
+    $.ajax({
+      url: "https://api.spotify.com/v1/users/" + userSpotifyId + "/playlists/" + currentPlaylistID + "/tracks",
+      headers: {
+        'Authorization': 'Bearer ' + spotifyAccessToken
+      }
+    }).done(function(currentPlaylistResponse){
 
-// ------------------------------ Function to compare parent and child playlists and add the child to the parent ------------------------------
-  var parentObject;
-  var childObject;
-  var songIDsToBeGivenToParent = [];
+      // Loop Through the Playlists and get the IDs
+      for(var i = 0; i < currentPlaylistResponse.items.length; i++){
 
+        var newSongObject = {
+          songName: currentPlaylistResponse.items[i].track.name,
+          songID: currentPlaylistResponse.items[i].track.id,
+          artistName: currentPlaylistResponse.items[i].track.artists[0].name,
+          //albumCoverLink: currentPlaylistResponse.items[i].track.album.images[0].url
+        };
+
+        // Add Song Attributes Object to the PLay Array
+        currentPlaylistSongObjects.push(newSongObject);
+      }
+        //console.log(currentPlaylistSongObjects)
+    });
+  }
+
+  // Compare parent and child playlists and add the child to the parent
   function addChildtoParentPlaylist(parentPlaylistID, childPlaylistID){
 
     // Get a Parent Object
@@ -283,79 +209,118 @@ function printUserPlaylists() {
       }, 1000); // end child timer
 
     }, 1000); // end parent timer
-
   }
 
+  // Search Spotify by song title
+  function spotifySongSearch(songTitle){
+    // Replace any spaces with a plus sign for query
+    songTitle = songTitle.trim().replace(/ /g, "+");
 
-// ============================================== MusixMatch API Queries ==============================================
+    // Run an initial search to identify the song's (track) unique Spotify ID
+    var queryURL1 = "https://api.spotify.com/v1/search?q=" + songTitle + "&type=track";
 
-  // Musix API Key
-  var tomsMusixAPIkey = "1ff5234a0012c537709d815bfc88a85d";
+      $.ajax({url: queryURL1, method: 'GET'}).done(function(songResponse) {
 
-  // ------------------------------ Query 3 - MusixMatch - Search for Track Id ------------------------------
-    var musixTrackId;
-
-    function queryMusixForId(artistName, trackName, albumName){
-
-      // Scrub Input Data - Replace spaces with "%20"
-      artistName = artistName.replace(/ /g, "%20").toLowerCase();
-      trackName = trackName.replace(/ /g, "%20").toLowerCase();
-      albumName.replace(/ /g, "%20").toLowerCase();
-
-       // QUERY 1 - Run an initial search to identify the song's (track) unique Musix ID
-      var queryMusixForIdURL = "https://crossorigin.me/" + "http://api.musixmatch.com/ws/1.1/" + "track.search?q_track=" + trackName + "&q_artist=" + artistName + "&q_album=" + albumName + "&f_has_lyrics=1" + "&format=json" + "&apikey=" + tomsMusixAPIkey;
-
-      $.ajax({url: queryMusixForIdURL, method: 'GET'}).done(function(musixIdResponse) {
-
-        // Response for Id query needed to be parsed
-        musixIdResponse = JSON.parse(musixIdResponse);
-
-        // Collect just the Musix Track Id
-        musixTrackId = musixIdResponse.message.body.track_list[0].track.track_id;
-
-        // Call the next AJAX call after this call is done
-        queryMusixForLyrics(musixTrackId);
-
+        // Globally store the Song Search Response
+        spotifySongResult = songResponse;
       });
+  }
+
+  // print song results in drop-down of search
+  function printTopResults() {
+    // for each drop down result
+    for (var i = 0; i < 5; i++) {
+      var iPlus = i+1;
+      $("#song-img"+iPlus).attr('src', spotifySongResult.tracks.items[i].album.images[0].url);
+      $("#song-img"+iPlus).parent().data('spotifyID', spotifySongResult.tracks.items[i].id);
+      // console.log("----- Spotify ID -----");
+      // console.log($("#song-img"+iPlus).data('spotifyID'));
+      $("#song-title"+iPlus).html(spotifySongResult.tracks.items[i].name);
+      $("#song-album"+iPlus).html(spotifySongResult.tracks.items[i].album.name);
+      $("#song-artist"+iPlus).html(spotifySongResult.tracks.items[i].artists[0].name);
     }
+  }
 
-  // ------------------------------ Query 4 - MusixMatch - Find Lyrics using Track Id ------------------------------
-    var musixLyrics; // just the lyrics
-    var musixLyricsResult; // whole object
+  // Search for Musix Track Id
+  function queryMusixForId(artistName, trackName, albumName){
 
-    function queryMusixForLyrics(){
+    // Scrub Input Data - Replace spaces with "%20"
+    artistName = artistName.replace(/ /g, "%20").toLowerCase();
+    trackName = trackName.replace(/ /g, "%20").toLowerCase();
+    albumName.replace(/ /g, "%20").toLowerCase();
 
-      // QUERY 2 - Search with the Musix ID to get back Track Lyrics
-      var queryMusixForLyricsURL = "https://crossorigin.me/" + "http://api.musixmatch.com/ws/1.1/" + "track.lyrics.get?track_id=" + musixTrackId + "&apikey=" + tomsMusixAPIkey;
+     // QUERY 1 - Run an initial search to identify the song's (track) unique Musix ID
+    var queryMusixForIdURL = "https://crossorigin.me/" + "http://api.musixmatch.com/ws/1.1/" + "track.search?q_track=" + trackName + "&q_artist=" + artistName + "&q_album=" + albumName + "&f_has_lyrics=1" + "&format=json" + "&apikey=" + tomsMusixAPIkey;
 
-      $.ajax({url:  queryMusixForLyricsURL, method: 'GET'}).done(function(musixLyricsResponse){
+    $.ajax({url: queryMusixForIdURL, method: 'GET'}).done(function(musixIdResponse) {
 
-        // Response for Id query needed to be parsed
-        musixLyricsResponse = JSON.parse(musixLyricsResponse);
+      // Response for Id query needed to be parsed
+      musixIdResponse = JSON.parse(musixIdResponse);
 
-        // Globally store the Lyrics Search Response
-        musixLyricsResult = musixLyricsResponse;
+      // Collect just the Musix Track Id
+      musixTrackId = musixIdResponse.message.body.track_list[0].track.track_id;
 
-        // Collect just the Musix Lyrics
-        musixLyrics = musixLyricsResponse.message.body.lyrics.lyrics_body;
+      // Call the next AJAX call after this call is done
+      queryMusixForLyrics(musixTrackId);
 
-        // Remove the Non-Commerical Use message at the bottom of the lyrics
-        musixLyrics = musixLyrics.replace("******* This Lyrics is NOT for Commercial use *******", "");
+    });
+  }
 
-        // Remove the "\n" values 
-        musixLyrics = musixLyrics.replace(/\n/g, " ");
+  // Find Lyrics using Track Id
+  function queryMusixForLyrics(){
 
-        // Make the Lyrics into a string
-        musixLyrics = JSON.stringify(musixLyrics);
+    // QUERY 2 - Search with the Musix ID to get back Track Lyrics
+    var queryMusixForLyricsURL = "https://crossorigin.me/" + "http://api.musixmatch.com/ws/1.1/" + "track.lyrics.get?track_id=" + musixTrackId + "&apikey=" + tomsMusixAPIkey;
 
-        // Print lyrics to page and store as a variable in the object
-        currentSong.lyrics = musixLyrics;
-        printSong();
-        printSongIframe();
-        printPlaylistIframe();
+    $.ajax({url:  queryMusixForLyricsURL, method: 'GET'}).done(function(musixLyricsResponse){
 
-      });
-    }
+      // Response for Id query needed to be parsed
+      musixLyricsResponse = JSON.parse(musixLyricsResponse);
+
+      // Globally store the Lyrics Search Response
+      musixLyricsResult = musixLyricsResponse;
+
+      // Collect just the Musix Lyrics
+      musixLyrics = musixLyricsResponse.message.body.lyrics.lyrics_body;
+
+      // Remove the Non-Commerical Use message at the bottom of the lyrics
+      musixLyrics = musixLyrics.replace("******* This Lyrics is NOT for Commercial use *******", "");
+
+      // Remove the "\n" values 
+      musixLyrics = musixLyrics.replace(/\n/g, " ");
+
+      // Make the Lyrics into a string
+      musixLyrics = JSON.stringify(musixLyrics);
+
+      // Print lyrics to page and store as a variable in the object
+      currentSong.lyrics = musixLyrics;
+      printSong();
+      printSongIframe();
+      printPlaylistIframe();
+
+    });
+  }
+
+$(document).ready(function(){
+
+  makeSignInLink(); // Add hyperlink to sign in button
+  // ADD BACK IN AFTER TESTING
+  // getUserSpotifyId(); // pull user ID from current page's URL
+  getUserPlaylistIDs(); // Get all playlists from user
+
+  // function timeout to allow AJAX call to finish
+  setTimeout(function(){
+    printUserPlaylists(); // print playlists into page
+  }, 500); // end timeout
+
+});
+
+
+
+
+
+
+
 
 // prints information into html
 function printSong(){
@@ -422,14 +387,50 @@ $('.dropdown-row').on('click', function(){
 
 });
 
-$( "#show-playlists" ).on('click',function() {
+$( "#show-playlists" ).on('click', function() {
   $( "#playlist-pane" ).empty();
   getUserPlaylistIDs();
   printUserPlaylists();
 });
 
+$('#playlist-pane').on('click', '.select-playlist' ,function(){
+  var holdData = $(this).data('playlistObject');
+  console.log(holdData);
+  $('#selected-playlist').html(holdData.name);
+  $('#selected-playlist').data('playlistObject', holdData);
+
+    var divFloatLeft = $('<div>');
+    divFloatLeft.addClass('float-left');
+    var divCollection = $('<div>');
+    divCollection.addClass('collection');
+    // change i to 0 when children are added to JS
+    for (var i = -1; i < holdData.plalyistChildren.length; i++) {
+      console.log("Working"); // Place function to make children here
+      var a = $('<a>');
+      a.attr({
+        class: 'collection-item add-playlist',
+        href: '#!'
+      });
+      if (holdData.plalyistChildren.length == 0) {
+        a.html("No children :(")
+      } else {
+        a.html(holdData.plalyistChildren[i].name);
+      }
+      divCollection.append(a);
+      if (i == holdData.plalyistChildren.length-1) {
+        console.log("fire");
+        var aAdd = $('<a>');
+        aAdd.attr({
+          class: 'collection-item add-playlist red',
+          href: '#!'
+        });
+        aAdd.html("Add Playlist");
+        divCollection.append(aAdd);
+      }
+    }
+    $('#max-content').append(divFloatLeft.append(divCollection));
 
 
-
+});
 
 
