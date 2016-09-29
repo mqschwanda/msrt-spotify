@@ -11,10 +11,11 @@
   var musixTrackId;
   var musixLyrics; // just the lyrics
   var musixLyricsResult; // whole object
+  var spotifyAccessToken;
 
 // xxxxxxxxxxxxxxxxxxxxxxxxxxx This is just Tom's scratch work for testing... It worked dude! Added songs to my playlist! xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-userSpotifyId = "mqschwanda"; //when done, uncommment the intiailization below
-var spotifyAccessToken = "BQA_mcIiETbiPPmdFQFLozHwrAlrveVzSeNvp-vogeGCkD0ueR3P3rp2eiOsDsZ_umPXlffPseyGAa8zNqYC2barRxMNn5G8VMX4ivHU1irzxZGmV2p0gdDGJol-72OgYkHPcn7qMJ0QIpDyYJJKcu3rvIYPvx4W5vnbxey1NpsGI2eMMbSMuIDtB5hibFuAbo2nd6NIKTQq01jXiVv-ivqwIp6ctWfxIxlmfB_4ojh1o_J0nxdeGKNdvf4vApyUdXy6zvRb5Sehbb4";
+// userSpotifyId = "mqschwanda"; //when done, uncommment the intiailization below
+// spotifyAccessToken = "BQA_mcIiETbiPPmdFQFLozHwrAlrveVzSeNvp-vogeGCkD0ueR3P3rp2eiOsDsZ_umPXlffPseyGAa8zNqYC2barRxMNn5G8VMX4ivHU1irzxZGmV2p0gdDGJol-72OgYkHPcn7qMJ0QIpDyYJJKcu3rvIYPvx4W5vnbxey1NpsGI2eMMbSMuIDtB5hibFuAbo2nd6NIKTQq01jXiVv-ivqwIp6ctWfxIxlmfB_4ojh1o_J0nxdeGKNdvf4vApyUdXy6zvRb5Sehbb4";
 //addChildtoParentPlaylist("3ekUHhJ6QWQ6tM0KHO525Y", "4ifW6KdwgV7Ugk38iu6ukC")
 // xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
