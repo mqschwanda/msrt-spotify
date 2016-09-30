@@ -30,7 +30,7 @@ function polarityPlaylistSearch(playlistIDforWatson){
 }
 
 // Ryan, u will need to pass in your own spotify playlist id here... (log in to ur spotify account and right click a playlist to get one... also dont forget to update the first 2 lines of spotify.js with ur own spotifyId)
-polarityPlaylistSearch("3ekUHhJ6QWQ6tM0KHO525Y");
+//polarityPlaylistSearch("3ekUHhJ6QWQ6tM0KHO525Y");
 
 // rest assured the code works though, if u cant get a result here, then comment out line 33 and use the below array as a data sample to make your emotion calls
 // again the key for the AJAX to wait is... "$.ajax({url:  queryURL, async : false, method: 'GET'}).done(function(response){" ... use that for ur call to the other API
