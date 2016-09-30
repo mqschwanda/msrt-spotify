@@ -15,7 +15,7 @@
 
 // xxxxxxxxxxxxxxxxxxxxxxxxxxx This is just Tom's scratch work for testing... It worked dude! Added songs to my playlist! xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 // userSpotifyId = "mqschwanda"; //when done, uncommment the intiailization below
-// spotifyAccessToken = "BQA_mcIiETbiPPmdFQFLozHwrAlrveVzSeNvp-vogeGCkD0ueR3P3rp2eiOsDsZ_umPXlffPseyGAa8zNqYC2barRxMNn5G8VMX4ivHU1irzxZGmV2p0gdDGJol-72OgYkHPcn7qMJ0QIpDyYJJKcu3rvIYPvx4W5vnbxey1NpsGI2eMMbSMuIDtB5hibFuAbo2nd6NIKTQq01jXiVv-ivqwIp6ctWfxIxlmfB_4ojh1o_J0nxdeGKNdvf4vApyUdXy6zvRb5Sehbb4";
+// spotifyAccessToken = "BQAHwELz21hZOFGkq3fIfM55o170eTESZENHjEJdR50g1LiWpIlgEF_ZZKqjt62KeEX0Ctna3WKNU1rvNkvYAJdphgtoJS0Dyi_CvfWD35baZBd25R9It7I3s58d0rQOSCKbUW7lgW8z5Z3Znzo5QJwHs9HLQQFrjUpJZDcVnQKYdZrJlA1SiWFBS6ZeVmzfmRV-CqkwkPZ2j99ud8X7VdyUX3HpfTIZFt5wufDhB3T6MZ3nZixe-N2jEhiQSw_-Q-v_zG17-duueWqx";
 //addChildtoParentPlaylist("3ekUHhJ6QWQ6tM0KHO525Y", "4ifW6KdwgV7Ugk38iu6ukC")
 // xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
@@ -125,6 +125,7 @@
     // AJAX Call to get Selected Playlist's Songs and other info
     $.ajax({
       url: "https://api.spotify.com/v1/users/" + userSpotifyId + "/playlists/" + currentPlaylistID + "/tracks",
+      async : false,
       headers: {
         'Authorization': 'Bearer ' + spotifyAccessToken
       }
@@ -253,7 +254,7 @@
      // QUERY 1 - Run an initial search to identify the song's (track) unique Musix ID
     var queryMusixForIdURL = "https://crossorigin.me/" + "http://api.musixmatch.com/ws/1.1/" + "track.search?q_track=" + trackName + "&q_artist=" + artistName + "&q_album=" + albumName + "&f_has_lyrics=1" + "&format=json" + "&apikey=" + tomsMusixAPIkey;
 
-    $.ajax({url: queryMusixForIdURL, method: 'GET'}).done(function(musixIdResponse) {
+    $.ajax({url: queryMusixForIdURL, async : false, method: 'GET'}).done(function(musixIdResponse) {
 
       // Response for Id query needed to be parsed
       musixIdResponse = JSON.parse(musixIdResponse);
@@ -273,7 +274,7 @@
     // QUERY 2 - Search with the Musix ID to get back Track Lyrics
     var queryMusixForLyricsURL = "https://crossorigin.me/" + "http://api.musixmatch.com/ws/1.1/" + "track.lyrics.get?track_id=" + musixTrackId + "&apikey=" + tomsMusixAPIkey;
 
-    $.ajax({url:  queryMusixForLyricsURL, method: 'GET'}).done(function(musixLyricsResponse){
+    $.ajax({url:  queryMusixForLyricsURL, async : false, method: 'GET'}).done(function(musixLyricsResponse){
 
       // Response for Id query needed to be parsed
       musixLyricsResponse = JSON.parse(musixLyricsResponse);
@@ -294,10 +295,12 @@
       musixLyrics = JSON.stringify(musixLyrics);
 
       // Print lyrics to page and store as a variable in the object
-      currentSong.lyrics = musixLyrics;
-      printSong();
-      printSongIframe();
-      printPlaylistIframe();
+      if(watsonQuery == false){
+        currentSong.lyrics = musixLyrics;
+        printSong();
+        printSongIframe();
+        printPlaylistIframe();
+      }
 
     });
   }
