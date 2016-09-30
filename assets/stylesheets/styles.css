@@ -13,8 +13,48 @@
     }
 
     nav {
-      background-color: #1c1c1f;
+      background-color: #282828;
     }
+
+    #content {
+      margin-top: 10px;
+
+    }
+
+    .collection {
+    margin: 0;
+    border: 1px solid #282828;
+    border-radius: 0;
+    overflow: hidden;
+    position: relative;
+}
+
+.collection .collection-item {
+    background-color: #181818;
+    line-height: 1.5rem;
+    padding: 14px 20px;
+    margin: 0;
+    border-bottom: 1px solid #282828;
+    color: #fff;
+    cursor: pointer;
+}
+.collection-item:hover, .add-playlist {
+  background-color: #282828 !important;
+}
+.active-collection-item {
+  color: #1ed760 !important;
+}
+.add-playlist {
+   color: #1ed760 !important;
+}
+
+.collection.with-header .collection-header {
+    background-color: #282828;
+    border-bottom: 1px solid #282828;
+    padding: 10px 20px;
+    color: #fff;
+    height: 80px;
+}
 
 /* Navbar */
   /*  Search Bar */
@@ -45,7 +85,7 @@
 
   #spotify-pane, #watson-pane {
     text-align: center;
-/*    height: 600px;*/
+    height: 600px;
     border: solid;
     /*overflow: scroll;*/
   }
@@ -84,11 +124,19 @@
 }
 
 #playlist-pane>.btn {
-/*  width: 50%;*/
+  width: 50%;
 }
 
-#pane, #playlist-pane {
-/*  height: 300px;*/
+#pane, #spotify-playlist, #playlist-pane {
+  height: 400px;
+
+}
+#pane {
+  display: inline-flex;
+}
+#playlist-pane {
+  height: 400px;
+  overflow: scroll;
 }
 .parent, .add-child {
   width: 100%;
@@ -118,11 +166,12 @@
   height: 64px; /*Nav height*/
 }
 
-#playlist-pane {
-  overflow: scroll;
+.wrapper-max-height {
   height: -webkit-max-content;
   height: -moz-max-content;
   height: max-content;
-
-
+}
+#select-playlist-prompt {
+  width: 250px;
+  color: #1ed760;
 }

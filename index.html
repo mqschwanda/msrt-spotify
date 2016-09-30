@@ -75,33 +75,28 @@
     </nav>
   </header>
   <main>
-    <div class="row">
-      <div id="playlist-pane" class="col s3" style="overflow: scroll;">
+    <div id="content" class="row">
+      <!-- Display playlists -->
+      <div id="playlist-pane" class="col s3" style="">
+        <div id="printPlaylist" class="">
+        </div>
       </div>
       <div class="col s9">
-      <!-- Place Playlist data -->
-        <div id="pane" class="row" style="overflow: scroll; overflow-x: scroll;">
+        <!-- Place Playlist data -->
+        <div id="pane" class="row">
           <div id="max-content">
             <div class="float-left">
-              <div class="collection">
-                <a id="selected-playlist" href="#!" class="collection-item active select-playlist">Click playlist to select</a>
-              </div>
-            </div>
-            <div class="float-left">
-              <div class="collection">
-                <a href="#!" class="collection-item">Playlists</a>
-                <a href="#!" class="collection-item">Playlists</a>
-                <a href="#!" class="collection-item">Playlists</a>
-                <a href="#!" class="collection-item red">Add Playlists</a>
-              </div>
+              <ul class="collection">
+                <li id="select-playlist-prompt" class="collection-item">Click playlist to select</li>
+              </ul>
             </div>
           </div>
         </div>
-      <!-- Place Spotify API data -->
-      <div id="spotify-pane" class="row">Spotify
-        <div id="iframe">
+        <!-- Place Spotify API data -->
+        <div id="spotify-pane" class="row">Spotify
+          <div id="iframe">
+          </div>
         </div>
-      </div>
       </div>
     </div>
 <!--       <div id="watson-pane" class="col s6" style="overflow: scroll;" >Watson

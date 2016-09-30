@@ -15,7 +15,7 @@
 
 // xxxxxxxxxxxxxxxxxxxxxxxxxxx This is just Tom's scratch work for testing... It worked dude! Added songs to my playlist! xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 userSpotifyId = "mqschwanda"; //when done, uncommment the intiailization below
-spotifyAccessToken = "BQCiGcDJbww6m2tMNP7RBjwdFglJrS_TjRmFxZjxFLStZV1tdhZcO0HF77IIozsA0Sj5FoY_Cp1mLQVY-RgQN65Qgr0UX4yu0WctpFwlrBOrrgCL-Ac5BHxbRxx__mZ2UC5jNf5kplBKbiOJF59qVKh_RSSrr-IudlBaZs3OkZdH_Mz08JhkfMsyNsK53U8KyVeGM4PaOukcjAvQGqnW0k4mB5B04axkmjUPuYawYDsXiFFyJ17cfkqdXoRQBqiCwtGfoKM4jj3ExNA";
+spotifyAccessToken = "BQBd_YeD5g-j8MOw9saByrcdWSjG-6awLu-UXG6SUF1wXDt1FG8worgrQocwMSzA8P5RFbk6XVBvolATSUz0HdKB9iZnEK0dqznR6rGRugz3pTkkfLxV8Dj9W27G9nOo4V_fO1c65LhkVkTP0Uh_-XsYRMfQDHDv2dD1Yna878AkNBQLA9vATKA-WkCOeqP7k2QnmOl0GepnuzCZnkDUCY58NH3F3AG3wA5Nm1VT5CZd-vtiMXiYzwBwJEUaT5ClPXGrGfLf2iQaQp0";
 //addChildtoParentPlaylist("3ekUHhJ6QWQ6tM0KHO525Y", "4ifW6KdwgV7Ugk38iu6ukC")
 // xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
@@ -100,12 +100,12 @@ spotifyAccessToken = "BQCiGcDJbww6m2tMNP7RBjwdFglJrS_TjRmFxZjxFLStZV1tdhZcO0HF77
 
   // print playlist results in playlist pane
   function printUserPlaylists() {
-    $('#playlist-pane').empty();
+    $('#printPlaylist').empty();
     var ul = $('<ul>');
     ul.addClass('collection with-header');
     var liHeader = $('<li>');
     liHeader.addClass('collection-header');
-    var hHeader = $('<h5>');
+    var hHeader = $('<h3>');
     hHeader.html("Playlists:");
     ul.append(liHeader.append(hHeader));
     for (var i = 0; i < userPlaylistObjects.length; i++) {
@@ -118,7 +118,7 @@ spotifyAccessToken = "BQCiGcDJbww6m2tMNP7RBjwdFglJrS_TjRmFxZjxFLStZV1tdhZcO0HF77
       li.html(userPlaylistObjects[i].name);
       ul.append(li);
     }
-    $('#playlist-pane').append(ul);
+    $('#printPlaylist').append(ul);
   }
 
   // Use Playlist ID to collect a Song Names / Artists / Album Art / Track IDs
@@ -310,6 +310,7 @@ spotifyAccessToken = "BQCiGcDJbww6m2tMNP7RBjwdFglJrS_TjRmFxZjxFLStZV1tdhZcO0HF77
     });
   }
 
+
 $(document).ready(function(){
 
   makeSignInLink(); // Add hyperlink to sign in button
@@ -353,18 +354,19 @@ function printSongIframe(){
 }
 
 // generates Spotify iframe for playlist from user
-function printPlaylistIframe(){
+function printPlaylistIframe(id){
+  var playlist = id;
+  var user = userSpotifyId;
   var iframe = $('<iframe>')
-  var playlist = '7JNPDieyce4ZZTBYlTGa6f';
-  var user = 'spotify';
   iframe.attr({
     src: 'https://embed.spotify.com/?uri=spotify:user:'+user+':playlist:'+playlist,
-    width: '300',
+    width: '250',
     height: '380',
     frameborder: '0',
     allowtransparency: 'true'
   });
-  $('#iframe').append(iframe);
+  $('#pane').find($('iframe')).remove();
+  $('#pane').prepend(iframe);
 }
 
 // fires function every time letter is typed into search
@@ -403,41 +405,44 @@ $( "#show-playlists" ).on('click', function() {
 });
 
 $('#playlist-pane').on('click', '.select-playlist' ,function(){
+  $(this).parent().children().removeClass('active-collection-item');
+  $(this).addClass('active-collection-item');
   var holdData = $(this).data('playlistObject');
   console.log(holdData);
-  $('#selected-playlist').html(holdData.name);
+  $('#select-playlist-prompt').remove();
   $('#selected-playlist').data('playlistObject', holdData);
 
-    var divFloatLeft = $('<div>');
-    divFloatLeft.addClass('float-left');
-    var divCollection = $('<div>');
-    divCollection.addClass('collection');
+    var div = $('<div>');
+    div.addClass('float-left');
+    var ul = $('<ul>');
+    ul.addClass('collection');
     // change i to 0 when children are added to JS
     for (var i = -1; i < holdData.plalyistChildren.length; i++) {
       console.log("Working"); // Place function to make children here
-      var a = $('<a>');
-      a.attr({
-        class: 'collection-item add-playlist',
+      var li = $('<li>');
+      li.attr({
+        class: 'collection-item',
         href: '#!'
       });
       if (holdData.plalyistChildren.length == 0) {
-        a.html("No children :(")
+        li.html("No children :(")
       } else {
-        a.html(holdData.plalyistChildren[i].name);
+        li.html(holdData.plalyistChildren[i].name);
       }
-      divCollection.append(a);
+      ul.append(li);
       if (i == holdData.plalyistChildren.length-1) {
-        console.log("fire");
-        var aAdd = $('<a>');
-        aAdd.attr({
-          class: 'collection-item add-playlist red',
-          href: '#!'
-        });
-        aAdd.html("Add Playlist");
-        divCollection.append(aAdd);
+        var liAdd = $('<li>');
+        liAdd.addClass('collection-item add-playlist');
+        liAdd.html("Add Playlist");
+        var iTag = $('<i>');
+        iTag.addClass('material-icons');
+        iTag.html("playlist_add")
+        liAdd.append(iTag)
+        ul.append(liAdd);
       }
     }
-    $('#max-content').append(divFloatLeft.append(divCollection));
+    printPlaylistIframe(holdData.playlistID);
+    $('#max-content').append(div.append(ul));
 
 
 });
