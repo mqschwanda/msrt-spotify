@@ -14,8 +14,8 @@
   var spotifyAccessToken;
 
 // xxxxxxxxxxxxxxxxxxxxxxxxxxx This is just Tom's scratch work for testing... It worked dude! Added songs to my playlist! xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-// userSpotifyId = "mqschwanda"; //when done, uncommment the intiailization below
-// spotifyAccessToken = "BQAHwELz21hZOFGkq3fIfM55o170eTESZENHjEJdR50g1LiWpIlgEF_ZZKqjt62KeEX0Ctna3WKNU1rvNkvYAJdphgtoJS0Dyi_CvfWD35baZBd25R9It7I3s58d0rQOSCKbUW7lgW8z5Z3Znzo5QJwHs9HLQQFrjUpJZDcVnQKYdZrJlA1SiWFBS6ZeVmzfmRV-CqkwkPZ2j99ud8X7VdyUX3HpfTIZFt5wufDhB3T6MZ3nZixe-N2jEhiQSw_-Q-v_zG17-duueWqx";
+userSpotifyId = "mqschwanda"; //when done, uncommment the intiailization below
+spotifyAccessToken = "BQCiGcDJbww6m2tMNP7RBjwdFglJrS_TjRmFxZjxFLStZV1tdhZcO0HF77IIozsA0Sj5FoY_Cp1mLQVY-RgQN65Qgr0UX4yu0WctpFwlrBOrrgCL-Ac5BHxbRxx__mZ2UC5jNf5kplBKbiOJF59qVKh_RSSrr-IudlBaZs3OkZdH_Mz08JhkfMsyNsK53U8KyVeGM4PaOukcjAvQGqnW0k4mB5B04axkmjUPuYawYDsXiFFyJ17cfkqdXoRQBqiCwtGfoKM4jj3ExNA";
 //addChildtoParentPlaylist("3ekUHhJ6QWQ6tM0KHO525Y", "4ifW6KdwgV7Ugk38iu6ukC")
 // xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
@@ -101,19 +101,24 @@
   // print playlist results in playlist pane
   function printUserPlaylists() {
     $('#playlist-pane').empty();
-    var div = $('<div>');
-    div.addClass('collection');
+    var ul = $('<ul>');
+    ul.addClass('collection with-header');
+    var liHeader = $('<li>');
+    liHeader.addClass('collection-header');
+    var hHeader = $('<h5>');
+    hHeader.html("Playlists:");
+    ul.append(liHeader.append(hHeader));
     for (var i = 0; i < userPlaylistObjects.length; i++) {
-      var a = $('<a>');
-      a.attr({
+      var li = $('<li>');
+      li.attr({
         class: 'collection-item select-playlist',
         href: '#!'
       });
-      a.data('playlistObject', userPlaylistObjects[i]);
-      a.html(userPlaylistObjects[i].name);
-      div.append(a);
+      li.data('playlistObject', userPlaylistObjects[i]);
+      li.html(userPlaylistObjects[i].name);
+      ul.append(li);
     }
-    $('#playlist-pane').append(div);
+    $('#playlist-pane').append(ul);
   }
 
   // Use Playlist ID to collect a Song Names / Artists / Album Art / Track IDs
@@ -309,7 +314,7 @@ $(document).ready(function(){
 
   makeSignInLink(); // Add hyperlink to sign in button
   // ADD BACK IN AFTER TESTING
-  getUserSpotifyId(); // pull user ID from current page's URL
+  // getUserSpotifyId(); // pull user ID from current page's URL
   getUserPlaylistIDs(); // Get all playlists from user
 
   // function timeout to allow AJAX call to finish

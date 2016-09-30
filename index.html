@@ -76,36 +76,35 @@
   </header>
   <main>
     <div class="row">
-      <div id="playlist-pane" class="col s4" style="overflow: scroll;">
+      <div id="playlist-pane" class="col s3" style="overflow: scroll;">
       </div>
-      <div id="pane" class="col s8" style="overflow: scroll; overflow-x: scroll;">
-
-<div id="max-content">
-  <div class="float-left">
-    <div class="collection">
-      <a id="selected-playlist" href="#!" class="collection-item active select-playlist">Click playlist to select</a>
-    </div>
-  </div>
-  <div class="float-left">
-    <div class="collection">
-      <a href="#!" class="collection-item">Playlists</a>
-      <a href="#!" class="collection-item">Playlists</a>
-      <a href="#!" class="collection-item">Playlists</a>
-      <a href="#!" class="collection-item red">Add Playlists</a>
-    </div>
-  </div>
-</div>
-
-      </div>
-    </div>
-    <div class="row">
+      <div class="col s9">
+      <!-- Place Playlist data -->
+        <div id="pane" class="row" style="overflow: scroll; overflow-x: scroll;">
+          <div id="max-content">
+            <div class="float-left">
+              <div class="collection">
+                <a id="selected-playlist" href="#!" class="collection-item active select-playlist">Click playlist to select</a>
+              </div>
+            </div>
+            <div class="float-left">
+              <div class="collection">
+                <a href="#!" class="collection-item">Playlists</a>
+                <a href="#!" class="collection-item">Playlists</a>
+                <a href="#!" class="collection-item">Playlists</a>
+                <a href="#!" class="collection-item red">Add Playlists</a>
+              </div>
+            </div>
+          </div>
+        </div>
       <!-- Place Spotify API data -->
-      <div id="spotify-pane" class="col s6">Spotify
+      <div id="spotify-pane" class="row">Spotify
         <div id="iframe">
         </div>
       </div>
-      <!-- Place Watson API data -->
-      <div id="watson-pane" class="col s6" style="overflow: scroll;" >Watson
+      </div>
+    </div>
+<!--       <div id="watson-pane" class="col s6" style="overflow: scroll;" >Watson
         <h5 id="title">
         </h5>
         <h5 id="album">
@@ -115,8 +114,7 @@
         </h5>
         <p id="lyrics">
         </p>
-      </div>
-    </div>
+      </div> -->
   </main>
   <footer class="page-footer">
     <div class="footer-copyright">
