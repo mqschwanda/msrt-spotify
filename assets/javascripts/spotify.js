@@ -18,11 +18,11 @@
   var currentParent;
 
 // xxxxxxxxxxxxxxxxxxxxxxxxxxx This is just Tom's scratch work for testing... It worked dude! Added songs to my playlist! xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-// userSpotifyId = "mqschwanda"; //when done, uncommment the intiailization below
-// spotifyAccessToken = "BQAsgVQbbpMOGX4RUnVS_nj6w9VNjnkqOgeGbDRLvDc_0LIcvk2w-IvA_oa1o-pUG8QRQNQ0Z5E0YFu5xs8yAXDuv5UP3YMJ-jfiQT3qpseWRbs9CcZQY5zYzYIvTUoLHnaNBmYD0iWKP3CnybVwG4gK5KIBOpkvU4u0V_QxoDhH6eh4-wXVV04dQEuDl2PjvD6B8lmQdDRyC6ZnOmZ-Khbp8w544lt25Shubqy95CQf2lzTKCx4jVAGtyHfdMbbCTnxpKSVShjoMKs";
+userSpotifyId = "12122110676"; //"mqschwanda"; //when done, uncommment the intiailization below
+spotifyAccessToken = "BQBGS5DoBjQxzaeR0172sXPYTRJgkiLd2CWsHwA6jALlhT3OHgrINdSd_5qin4k_ifci6HTMjgmL2yKvIlBX30t7njmJl1NpBrBpwHgVkVvFcN1VgJyaUzA42iLslfvwa9Z_RTWShQ_tdQhANAG_8Q_Cn_uFlCyjFve8IOZZ5GMTLPY6FXVlrHBJB30-8XKFtc9C9LjLY8whrKMgMKIeoJdU1JrEII6qEqD2h2rLj9t8O4mYLNsiskc20TMJX5RpMcYTT7sPWO5FWfvn";
 //addChildtoParentPlaylist("3ekUHhJ6QWQ6tM0KHO525Y", "4ifW6KdwgV7Ugk38iu6ukC")
 // xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-
+getUserPlaylistSongs("2LNh7m9GftSujc85qjTo9S")
 // FUNCTION DELCLERATIONS
 
   // Generate link for sign in button using application ID from Spotify
@@ -62,7 +62,7 @@
           'Authorization': 'Bearer ' + spotifyAccessToken
         },
         success: function(userInfoResponse) {
-          // console.log(userInfoResponse)
+          //console.log(userInfoResponse)
 
           // Collect the User's Spotify Id
           userSpotifyId = userInfoResponse.id;
@@ -336,7 +336,7 @@ $(document).ready(function(){
 
   makeSignInLink(); // Add hyperlink to sign in button
   // ADD BACK IN AFTER TESTING
-  getUserSpotifyId(); // pull user ID from current page's URL
+  //getUserSpotifyId(); // pull user ID from current page's URL
   // function timeout to allow AJAX call to finish
   setTimeout(function(){
     getUserPlaylistIDs(); // Get all playlists from user
