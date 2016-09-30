@@ -340,11 +340,12 @@ $(document).ready(function(){
   // function timeout to allow AJAX call to finish
   setTimeout(function(){
     getUserPlaylistIDs(); // Get all playlists from user
+    // function timeout to allow AJAX call to finish
+    setTimeout(function(){
+      printUserPlaylists(); // print playlists into page
+    }, 500); // end timeout
   }, 500); // end timeout
-  // function timeout to allow AJAX call to finish
-  setTimeout(function(){
-    printUserPlaylists(); // print playlists into page
-  }, 500); // end timeout
+
 
 });
 
