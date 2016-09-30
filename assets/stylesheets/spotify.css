@@ -3640,33 +3640,33 @@ address {
 }
 
 ::-webkit-scrollbar-track {
-    background-color: #1c1c1f
+    background-color: #181818
 }
 
 ::-webkit-scrollbar {
     width: 10px;
-    background-color: #1c1c1f
+    background-color: #181818
 }
 
 ::-webkit-scrollbar-thumb {
-    border: 1px solid #1c1c1f;
+    border: 1px solid #181818;
     border-radius: 10px;
-    background-color: #323438
+    background-color: #404040
 }
 
 ::-webkit-scrollbar-corner {
-    background-color: #1c1c1f
+    background-color: #181818
 }
 
 body,
 html {
-    scrollbar-arrow-color: #323438;
-    scrollbar-track-color: #1c1c1f;
-    scrollbar-face-color: #323438;
-    scrollbar-highlight-color: #1c1c1f;
-    scrollbar-3dlight-color: #1c1c1f;
-    scrollbar-shadow-color: #1c1c1f;
-    scrollbar-darkshadow-color: #1c1c1f
+    scrollbar-arrow-color: #404040;
+    scrollbar-track-color: #181818;
+    scrollbar-face-color: #404040;
+    scrollbar-highlight-color: #181818;
+    scrollbar-3dlight-color: #181818;
+    scrollbar-shadow-color: #181818;
+    scrollbar-darkshadow-color: #181818
 }
 
 .nano-scroll {

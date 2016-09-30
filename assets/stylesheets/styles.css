@@ -21,22 +21,29 @@
 
     }
 
-    .collection {
+.collection {
     margin: 0;
-    border: 1px solid #282828;
+    border: 1px;
+    border-top: 1px solid #282828;
+    border-bottom: 1px solid #282828;
     border-radius: 0;
     overflow: hidden;
     position: relative;
 }
 
 .collection .collection-item {
-    background-color: #181818;
     line-height: 1.5rem;
-    padding: 14px 20px;
-    margin: 0;
-    border-bottom: 1px solid #282828;
+/*    padding: 14px 20px;
+    margin: 0; */
     color: #fff;
     cursor: pointer;
+    height: 45px;
+/*    color: #a0a0a0;*/
+    background-color: #181818;
+    border-bottom: 1px solid #282828;
+    cursor: pointer;
+    -webkit-transition: background-color .4s;
+    transition: background-color .4s;
 }
 .collection-item:hover, .add-playlist {
   background-color: #282828 !important;
@@ -50,10 +57,11 @@
 
 .collection.with-header .collection-header {
     background-color: #282828;
-    border-bottom: 1px solid #282828;
-    padding: 10px 20px;
+    padding: 0;
     color: #fff;
     height: 80px;
+    position: relative;
+    border: 1px solid #282828;
 }
 
 /* Navbar */
@@ -133,10 +141,13 @@
 }
 #pane {
   display: inline-flex;
+  position: relative;
+  top: -13px;
 }
 #playlist-pane {
-  height: 400px;
-  overflow: scroll;
+  height: 381px;
+  overflow-y: scroll;
+  padding-right: 0;
 }
 .parent, .add-child {
   width: 100%;
@@ -174,4 +185,8 @@
 #select-playlist-prompt {
   width: 250px;
   color: #1ed760;
+}
+
+.row .col {
+    padding: 0 1.5rem;
 }
