@@ -48,14 +48,29 @@ var currentSongLyric = songLyrics[i];
 var currentSongLyricSentiment = sentiment.analyze(currentSongLyric);
 
 console.log(currentSongLyricSentiment)
-$('#spotify-pane').html(currentSongLyricSentiment)
-  }
+if(currentPlaylistLyricSentiment === 0){
+  $('#spotify-pane').html("Content")
+}else(currentPlaylistLyricSentiment === -1 || === -2 || === -3){
+  $('#spotify-pane').html("Sad")
+}else(currentPlaylistLyricSentiment === -4 || === -5 || ===-6){
+  $('#spotify-pane').html("Bummer")
+}else(currentPlaylistLyricSentiment === -7 || === -8 || <= -9){
+  $('#spotify-pane').html("You ok?")
+}else(currentPlaylistLyricSentiment === 1 || === 2 || === 3){
+  $('#spotify-pane').html("Chill")
+}else(currentPlaylistLyricSentiment === 4 || === 5 || === 6){
+  $('#spotify-pane').html("Happy")
+}else(currentPlaylistLyricSentiment === 7 || === 8 || === >= 9){
+  $('#spotify-pane').html("Ecstatic")
+}
+
+
 }
 getPlaylistSentimood(songLyrics);
 //console.log(currentSongLyric)
 //console.log(currentSongLyricSentiment)
 
-/*function getPlaylistSentimood(songLyricsForWatson){
+function getPlaylistSentimood(songLyricsForWatson){
   for(var i = 0; i < songLyricsForWatson.length; i ++){
 
     var sentiment = new Sentimood();
@@ -68,7 +83,7 @@ getPlaylistSentimood(songLyrics);
 }
 
 getPlaylistSentimood();
-*/
+
 //Trying a new api that allows bulk text analysis.
 //sentity.io
 
