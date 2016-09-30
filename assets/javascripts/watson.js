@@ -30,17 +30,31 @@ function polarityPlaylistSearch(playlistIDforWatson){
 }
 
 // Ryan, u will need to pass in your own spotify playlist id here... (log in to ur spotify account and right click a playlist to get one... also dont forget to update the first 2 lines of spotify.js with ur own spotifyId)
-  polarityPlaylistSearch("3ekUHhJ6QWQ6tM0KHO525Y"); 
+  //polarityPlaylistSearch("3ekUHhJ6QWQ6tM0KHO525Y"); 
 
 // rest assured the code works though, if u cant get a result here, then comment out line 33 and use the below array as a data sample to make your emotion calls
 // again the key for the AJAX to wait is... "$.ajax({url:  queryURL, async : false, method: 'GET'}).done(function(response){" ... use that for ur call to the other API
 sampleWatsonLyricsResult = ["See me comin' to town with my soul Straight down …s Broke down out in a ditch of old rubbish ...  ", "I heard sirens in my head From the first time tha…opes up Cause then I'll never get let down ...  ", "So if you're lonely, you know I'm here waiting fo…You don't know You say, you don't go ...  ", "Giddy up, giddy it up Giddy up, giddy up  Wanna m…our life Live it once, can't live it twice ...  ", "I've been alone with you inside my mind And in my… what to do And I want to tell you so much ...  "];
-console.log(sampleWatsonLyricsResult)
+//console.log(sampleWatsonLyricsResult)
+
+//Running song lyrics from playlist through sentimood.js
+function getPlaylistSentimood(songLyrics){
+for (var i = 0; i < songLyrics.length; i++){
 
 
-/*function sentimoodPlaylistSearch(){
+var sentiment = new Sentimood();
+var currentSongLyric = songLyrics[i];
 
-}*/
+var currentSongLyricSentiment = sentiment.analyze(currentSongLyric);
+
+console.log(currentSongLyricSentiment)
+
+  }
+}
+getPlaylistSentimood(sampleWatsonLyricsResult);
+//console.log(currentSongLyric)
+//console.log(currentSongLyricSentiment)
+
 
 
 //Running the playlist lyrics through the Text Gain API
@@ -49,7 +63,7 @@ console.log(sampleWatsonLyricsResult)
 //Trying a new api that allows bulk text analysis.
 //sentity.io
 
-var polarity;
+/*var polarity;
 var polarityResponse;
 function watsonPlaylistSearch(){
   
@@ -57,7 +71,7 @@ function watsonPlaylistSearch(){
   $.ajax({url: queryURL, async : false, method: 'GET'})
    .done(function(musicPolarityResponse){
      console.log(queryURL);
-     console.log(musicPolarityResponse);
+     console.log(musicPolarityResponse);*/
 
      //Globally store the polarity
      //polarityResponse = polarity;
@@ -67,7 +81,7 @@ function watsonPlaylistSearch(){
 
      //Initiate next AJAX call
      //watsonPlaylistSearch(sampleWatsonLyricsResult);
-    });
+    /*});
 }
 
 /*Running the current song through the Text Gain API
@@ -88,7 +102,7 @@ function currentSongPolarity(){
 } */
 
 
-watsonPlaylistSearch();
+/*watsonPlaylistSearch();*/
 /*currentSongPolarity();
 */
 
