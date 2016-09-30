@@ -29,8 +29,6 @@ function polarityPlaylistSearch(playlistIDforWatson){
   console.log(songLyricsForWatson)
 }
 
-// Ryan, u will need to pass in your own spotify playlist id here... (log in to ur spotify account and right click a playlist to get one... also dont forget to update the first 2 lines of spotify.js with ur own spotifyId)
-  //polarityPlaylistSearch("3ekUHhJ6QWQ6tM0KHO525Y"); 
 
 // rest assured the code works though, if u cant get a result here, then comment out line 33 and use the below array as a data sample to make your emotion calls
 // again the key for the AJAX to wait is... "$.ajax({url:  queryURL, async : false, method: 'GET'}).done(function(response){" ... use that for ur call to the other API
@@ -91,10 +89,12 @@ function getCurrentSongSentimood(songLyrics){
       else{
         currentSongSentiment = "Unknown";
       }
+
+
 };
 
 
-getPlaylistSentimood(songLyrics);
+getCurrentSongSentimood();
 //console.log(currentSongLyric)
 //console.log(currentSongLyricSentiment)
 
@@ -166,55 +166,144 @@ function getPlaylistSentimood(songLyricsForWatson){
 
 getPlaylistSentimood(sampleWatsonLyricsResult);
 
-//Trying a new api that allows bulk text analysis.
-//sentity.io
+///////////////////////////////////////////////////////////////////////////////////
+var currentPlaylistSentiment;
 
-/*var polarity;
-var polarityResponse;
-function watsonPlaylistSearch(){
-  
-  var queryURL = "https://api.sentity.io/v1/sentiment/account?api_key=f0434f8e6aa029f895c356aac086c9efe88f55b8" + sampleWatsonLyricsResult;
-  $.ajax({url: queryURL, async : false, method: 'GET'})
-   .done(function(musicPolarityResponse){
-     console.log(queryURL);
-     console.log(musicPolarityResponse);*/
+var avgPlaylistRythmicMood = 0;
+var avgPlaylistEnergy = 0;
+var avgPlaylistDancebility = 0;
 
-     //Globally store the polarity
-     //polarityResponse = polarity;
+function songFeaturesSearch(playlistIDforWatson){
 
-     //Collect the polarity and confidence
-     //polarity = musicPolarityResponse.polarity.confidence;
+ // Initialize arrays
+ var playlistRythmicMoodArray = [];
+ var playlistEnergyArray = [];
+ var playlistDanceabilityArray = [];
 
-     //Initiate next AJAX call
-     //watsonPlaylistSearch(sampleWatsonLyricsResult);
-    /*});
+ // Initialize ID list for URL
+ var listOfSongFeatureIDs = "";
+
+ // Loop through all the songs and get their ids
+ for(var j = 0; j < currentPlaylistSongObjects.length; j++){
+
+  var currentSongID = currentPlaylistSongObjects[j].songID;
+  currentSongID = currentSongID + ",";
+
+  listOfSongFeatureIDs += currentSongID;
+
+ }
+
+ // Remove last comma
+ listOfSongFeatureIDs = listOfSongFeatureIDs.substring(0, listOfSongFeatureIDs.length - 1);
+
+ // Get Audio Features from Spotify API Query
+ var featuresURL = "https://api.spotify.com/v1/audio-features/?ids=" + listOfSongFeatureIDs;
+
+     $.ajax({
+       url: featuresURL,
+       headers: {
+         'Authorization': 'Bearer ' + spotifyAccessToken
+       }
+     }).done(function(userPlaylistFeaturesResponse){
+       
+       for(var k = 0; k < userPlaylistFeaturesResponse.audio_features.length; k++){
+
+         // Collect the features of each song
+         var currentSongRythmicMood = userPlaylistFeaturesResponse.audio_features[k].valence*10; // set on a 0 to 10 scale
+         var currentSongEnergy = userPlaylistFeaturesResponse.audio_features[k].energy*10; // set on a 0 to 10 scale
+         var currentSongDanceability = userPlaylistFeaturesResponse.audio_features[k].danceability*10; // set on a 0 to 10 scale
+         
+         // Push to the arrays (in case needed in the global scope)
+         playlistRythmicMoodArray.push(currentSongRythmicMood);
+         playlistEnergyArray.push(currentSongEnergy);
+         playlistDanceabilityArray.push(currentSongDanceability);
+
+         // Sum for the average value
+         avgPlaylistRythmicMood += currentSongRythmicMood;
+         avgPlaylistEnergy += currentSongEnergy;
+         avgPlaylistDancebility += currentSongDanceability;
+
+       }
+
+       // Divide the sums for an average
+       avgPlaylistRythmicMood = (avgPlaylistRythmicMood/playlistRythmicMoodArray.length).toPrecision(2);
+       avgPlaylistEnergy = (avgPlaylistEnergy/playlistEnergyArray.length).toPrecision(2);
+       avgPlaylistDancebility = (avgPlaylistDancebility/playlistDanceabilityArray.length).toPrecision(2);
+
+
+
+       // Get Text Result for Rythmic Mood
+       avgPlaylistRythmicMood = parseInt(avgPlaylistRythmicMood);
+
+       if(avgPlaylistRythmicMood >= 4.5 && avgPlaylistRythmicMood <= 5.5){
+         currentPlaylistSentiment = "Content";
+    
+       }
+
+       else if (avgPlaylistRythmicMood > 3  && avgPlaylistRythmicMood < 4.5){
+         currentPlaylistSentiment = "Sad";
+
+       }
+
+       else if(avgPlaylistRythmicMood >= 1.5 && avgPlaylistRythmicMood <= 3){
+         currentPlaylistSentiment = "Bummer";
+
+       }
+
+       else if(avgPlaylistRythmicMood <= 1.5){
+         currentPlaylistSentiment = "Are you OK?";
+
+       }
+
+       else if(avgPlaylistRythmicMood > 5.5 && avgPlaylistRythmicMood < 7){
+         currentPlaylistSentiment = "Chill";
+
+       }
+
+       else if(avgPlaylistRythmicMood >= 7 && avgPlaylistRythmicMood < 8.5){
+         currentPlaylistSentiment = "Happy";
+       
+       }
+
+       else if(avgPlaylistRythmicMood >= 8.5){
+         currentPlaylistSentiment = "Ecstatic!";
+
+       }
+
+       else{
+         currentPlaylistSentiment = "Unknown";
+       }      
+
+     });
+
 }
 
-/*Running the current song through the Text Gain API
-function currentSongPolarity(){
-  var apiKey = "f0434f8e6aa029f895c356aac086c9efe88f55b8"
-  var queryURL = "https://api.sentity.io/v1/sentiment=" + apiKey;
-  $.ajax({url: queryURL, method: 'GET'})
-    .done(function(currentPolarity) {
-      console.log(queryURL);
-      console.log(currentPolarity); 
+function appendToDom(){
+  $('#spotify-pane').empty();
 
-      //Globally store the polarity
-      polarityResponse = polarity;
-
-      //Collect the polarity and confidence
-      polarity = musicPolarityResponse.polarity.confidence; 
-    });  
-} */
+  
+  var p_lyricSent = $("<p>");
+  var p_musicSent = $("<p>");
+  var P_showScale = $("<p>");
+  var p_energy = $("<p>");
+  var p_dance = $("<p>");
 
 
-/*watsonPlaylistSearch();*/
-/*currentSongPolarity();
-*/
+  p_lyricSent.html("Lyrical Mood: " + playlistSentiment);
+  p_musicSent.html("Rhythmic Mood: " + currentPlaylistSentiment);
+  P_showScale.html("On a scale of 0 (low) to 10 (high)...");
+  p_energy.html("Energy Level: " + avgPlaylistEnergy);
+  p_dance.html("Dancebility: " + avgPlaylistDancebility);
 
+  $('#spotify-pane').append(p_lyricSent);
+  $('#spotify-pane').append(p_musicSent);
+  $('#spotify-pane').append(P_showScale);
+  $('#spotify-pane').append(p_energy);
+  $('#spotify-pane').append(p_dance);
+}
 
-
-
+appendToDom();
+      
 
 
 
