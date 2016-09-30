@@ -38,7 +38,7 @@ sampleWatsonLyricsResult = ["See me comin' to town with my soul Straight down â€
 //console.log(sampleWatsonLyricsResult)
 
 //Running song lyrics from playlist through sentimood.js
-function getPlaylistSentimood(songLyrics){
+function getCurrentSongSentimood(songLyrics){
 for (var i = 0; i < songLyrics.length; i++){
 
 
@@ -48,18 +48,27 @@ var currentSongLyric = songLyrics[i];
 var currentSongLyricSentiment = sentiment.analyze(currentSongLyric);
 
 console.log(currentSongLyricSentiment)
-
+$('#spotify-pane').html(currentSongLyricSentiment)
   }
 }
-getPlaylistSentimood(sampleWatsonLyricsResult);
+getPlaylistSentimood(songLyrics);
 //console.log(currentSongLyric)
 //console.log(currentSongLyricSentiment)
 
+/*function getPlaylistSentimood(songLyricsForWatson){
+  for(var i = 0; i < songLyricsForWatson.length; i ++){
 
+    var sentiment = new Sentimood();
+    var currentPlaylistLyric = songLyricsForWaton[i];
 
-//Running the playlist lyrics through the Text Gain API
+    var currentPlaylistLyricSentiment = sentiment.analyze(currentPlaylistLyric);
 
+    console.log(currentPlaylistLyricSentiment)
+  }
+}
 
+getPlaylistSentimood();
+*/
 //Trying a new api that allows bulk text analysis.
 //sentity.io
 
