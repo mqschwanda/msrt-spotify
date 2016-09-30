@@ -26,7 +26,10 @@ function polarityPlaylistSearch(playlistIDforWatson){
   // Resets in case it is called more than 1 time...
   watsonQuery = false;
 
-  console.log(songLyricsForWatson)
+  // console.log(songLyricsForWatson)
+
+  // Fire next function
+  getPlaylistSentimood(songLyricsForWatson);
 }
 
 
@@ -37,6 +40,7 @@ sampleWatsonLyricsResult = ["See me comin' to town with my soul Straight down â€
 
 //Running song lyrics from playlist through sentimood.js
 function getCurrentSongSentimood(songLyrics){
+  var currentSongSentimentTotal = 0;
   for (var i = 0; i < songLyrics.length; i++){
 
 
@@ -90,14 +94,18 @@ function getCurrentSongSentimood(songLyrics){
         currentSongSentiment = "Unknown";
       }
 
+      // call next function
 
 };
 
 
-getCurrentSongSentimood();
+//getCurrentSongSentimood();
 //console.log(currentSongLyric)
 //console.log(currentSongLyricSentiment)
 
+
+  // Initialize a written mood strig;
+  var playlistSentiment;
 function getPlaylistSentimood(songLyricsForWatson){
 
   var playlistSentimentTotal = 0;
@@ -116,8 +124,7 @@ function getPlaylistSentimood(songLyricsForWatson){
   // divide total by songs for an average mood
   var playlistSentimentValue = playlistSentimentTotal/songLyricsForWatson.length;
 
-  // Initialize a written mood strig;
-  var playlistSentiment;
+
 
 
     if(playlistSentimentValue >= -0.5 && playlistSentimentValue <= 0.5){
@@ -160,11 +167,14 @@ function getPlaylistSentimood(songLyricsForWatson){
     }
 
 
-    $('#spotify-pane').html(playlistSentiment);
+    // $('#spotify-pane').html(playlistSentiment);
     // $(currentPlaylistLyricSentiment).attr(currentPlaylistLyric)
+
+    // fire next function
+    songFeaturesSearch();
 }
 
-getPlaylistSentimood(sampleWatsonLyricsResult);
+// getPlaylistSentimood(sampleWatsonLyricsResult);
 
 ///////////////////////////////////////////////////////////////////////////////////
 var currentPlaylistSentiment;
@@ -173,7 +183,7 @@ var avgPlaylistRythmicMood = 0;
 var avgPlaylistEnergy = 0;
 var avgPlaylistDancebility = 0;
 
-function songFeaturesSearch(playlistIDforWatson){
+function songFeaturesSearch(){
 
  // Initialize arrays
  var playlistRythmicMoodArray = [];
@@ -201,13 +211,13 @@ function songFeaturesSearch(playlistIDforWatson){
 
      $.ajax({
        url: featuresURL,
+       async: false,
        headers: {
          'Authorization': 'Bearer ' + spotifyAccessToken
        }
      }).done(function(userPlaylistFeaturesResponse){
        
        for(var k = 0; k < userPlaylistFeaturesResponse.audio_features.length; k++){
-
          // Collect the features of each song
          var currentSongRythmicMood = userPlaylistFeaturesResponse.audio_features[k].valence*10; // set on a 0 to 10 scale
          var currentSongEnergy = userPlaylistFeaturesResponse.audio_features[k].energy*10; // set on a 0 to 10 scale
@@ -276,6 +286,9 @@ function songFeaturesSearch(playlistIDforWatson){
 
      });
 
+     // appened evrything to dom
+     appendToDom();
+
 }
 
 function appendToDom(){
@@ -302,7 +315,7 @@ function appendToDom(){
   $('#spotify-pane').append(p_dance);
 }
 
-appendToDom();
+//appendToDom();
       
 
 
