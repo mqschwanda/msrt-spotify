@@ -1,3 +1,6 @@
+
+
+
 // VARIABLE DELCLERATIONS
 
   var userSpotifyId;
@@ -12,10 +15,11 @@
   var musixLyrics; // just the lyrics
   var musixLyricsResult; // whole object
   var spotifyAccessToken;
+  var currentParent;
 
 // xxxxxxxxxxxxxxxxxxxxxxxxxxx This is just Tom's scratch work for testing... It worked dude! Added songs to my playlist! xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-// userSpotifyId = "mqschwanda"; //when done, uncommment the intiailization below
-// spotifyAccessToken = "BQBd_YeD5g-j8MOw9saByrcdWSjG-6awLu-UXG6SUF1wXDt1FG8worgrQocwMSzA8P5RFbk6XVBvolATSUz0HdKB9iZnEK0dqznR6rGRugz3pTkkfLxV8Dj9W27G9nOo4V_fO1c65LhkVkTP0Uh_-XsYRMfQDHDv2dD1Yna878AkNBQLA9vATKA-WkCOeqP7k2QnmOl0GepnuzCZnkDUCY58NH3F3AG3wA5Nm1VT5CZd-vtiMXiYzwBwJEUaT5ClPXGrGfLf2iQaQp0";
+userSpotifyId = "mqschwanda"; //when done, uncommment the intiailization below
+spotifyAccessToken = "BQAHq7CXu4nw2bxg0KJ6mMkeDJw7aUCbVDXILXsHrn80ykTprk98_aW3Yx4Kh059gf4wIjkBZ6py-BtFcIjmIERe6x-cgTq_zOHlPyxQmMnaoHlZx-dYABtRCAhhDmB0OxSGeA1EfIMvXe74PrN6YO7gnr-k7Z6IuKADCXhBj5Ixhairw-YeLiQ31wZ_BM_2nV-CCqjH0qI9YqykltGvvstDXEmwEeGaS_cW9ska0Hyl6saC3VEgwZXt0vXTq3BZSp2DKOz2BbnGAbc";
 //addChildtoParentPlaylist("3ekUHhJ6QWQ6tM0KHO525Y", "4ifW6KdwgV7Ugk38iu6ukC")
 // xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
@@ -112,7 +116,8 @@
       var li = $('<li>');
       li.attr({
         class: 'collection-item select-playlist',
-        href: '#!'
+        draggable: 'true',
+        ondragstart: 'drag(event)'
       });
       li.data('playlistObject', userPlaylistObjects[i]);
       li.html(userPlaylistObjects[i].name);
@@ -310,12 +315,28 @@
     });
   }
 
+function allowDrop(ev) {
+    ev.preventDefault();
+}
+
+var dragged;
+function drag(ev) {
+  dragged = ev.target;
+  console.log(dragged);
+}
+
+function drop(ev) {
+    ev.preventDefault();
+    currentParent.plalyistChildren.push($(dragged).data('playlistObject'));
+    console.log(currentParent);
+    $(ev.target).before(dragged);
+}
 
 $(document).ready(function(){
 
   makeSignInLink(); // Add hyperlink to sign in button
   // ADD BACK IN AFTER TESTING
-  getUserSpotifyId(); // pull user ID from current page's URL
+  // getUserSpotifyId(); // pull user ID from current page's URL
   getUserPlaylistIDs(); // Get all playlists from user
 
   // function timeout to allow AJAX call to finish
@@ -407,31 +428,37 @@ $( "#show-playlists" ).on('click', function() {
 $('#playlist-pane').on('click', '.select-playlist' ,function(){
   $(this).parent().children().removeClass('active-collection-item');
   $(this).addClass('active-collection-item');
-  var holdData = $(this).data('playlistObject');
-  console.log(holdData);
+  currentParent = $(this).data('playlistObject');
+  console.log("var currentParent: ");
+  console.log(currentParent);
+
   $('#select-playlist-prompt').remove();
-  $('#selected-playlist').data('playlistObject', holdData);
+  $('#selected-playlist').data('playlistObject', currentParent);
 
     var div = $('<div>');
     div.addClass('float-left');
     var ul = $('<ul>');
     ul.addClass('collection');
     // change i to 0 when children are added to JS
-    for (var i = -1; i < holdData.plalyistChildren.length; i++) {
+    for (var i = -1; i < currentParent.plalyistChildren.length; i++) {
       console.log("Working"); // Place function to make children here
       var li = $('<li>');
       li.attr({
         class: 'collection-item',
         href: '#!'
       });
-      if (holdData.plalyistChildren.length == 0) {
+      if (currentParent.plalyistChildren.length == 0) {
         li.html("No children :(")
       } else {
-        li.html(holdData.plalyistChildren[i].name);
+        li.html(currentParent.plalyistChildren[i].name);
       }
       ul.append(li);
-      if (i == holdData.plalyistChildren.length-1) {
+      if (i == currentParent.plalyistChildren.length-1) {
         var liAdd = $('<li>');
+        liAdd.attr({
+          ondrop: 'drop(event)',
+          ondragover: 'allowDrop(event)'
+        });
         liAdd.addClass('collection-item add-playlist');
         liAdd.html("Add Playlist");
         var iTag = $('<i>');
@@ -441,9 +468,57 @@ $('#playlist-pane').on('click', '.select-playlist' ,function(){
         ul.append(liAdd);
       }
     }
-    printPlaylistIframe(holdData.playlistID);
+    $('#max-content').empty();
+    printPlaylistIframe(currentParent.playlistID);
     $('#max-content').append(div.append(ul));
 
+});
+
+$('#pane').on('click', '#max-content>.float-left>.collection>.collection-item' ,function(){
+  $(this).parent().children().removeClass('active-collection-item');
+  $(this).addClass('active-collection-item');
+  currentParent = $(this).data('playlistObject');
+  console.log("var currentParent: ");
+  console.log(currentParent);
+
+  $('#select-playlist-prompt').remove();
+  $('#selected-playlist').data('playlistObject', currentParent);
+
+    var div = $('<div>');
+    div.addClass('float-left');
+    var ul = $('<ul>');
+    ul.addClass('collection');
+    // change i to 0 when children are added to JS
+    for (var i = -1; i < currentParent.plalyistChildren.length; i++) {
+      console.log("Working"); // Place function to make children here
+      var li = $('<li>');
+      li.attr({
+        class: 'collection-item',
+        href: '#!'
+      });
+      if (currentParent.plalyistChildren.length == 0) {
+        li.html("No children :(")
+      } else {
+        li.html(currentParent.plalyistChildren[i].name);
+      }
+      ul.append(li);
+      if (i == currentParent.plalyistChildren.length-1) {
+        var liAdd = $('<li>');
+        liAdd.attr({
+          ondrop: 'drop(event)',
+          ondragover: 'allowDrop(event)'
+        });
+        liAdd.addClass('collection-item add-playlist');
+        liAdd.html("Add Playlist");
+        var iTag = $('<i>');
+        iTag.addClass('material-icons');
+        iTag.html("playlist_add")
+        liAdd.append(iTag)
+        ul.append(liAdd);
+      }
+    }
+    printPlaylistIframe(currentParent.playlistID);
+    $('#max-content').append(div.append(ul));
 
 });
 
