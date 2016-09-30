@@ -45,7 +45,7 @@
 
   #spotify-pane, #watson-pane {
     text-align: center;
-    height: 600px;
+/*    height: 600px;*/
     border: solid;
     /*overflow: scroll;*/
   }
@@ -84,11 +84,11 @@
 }
 
 #playlist-pane>.btn {
-  width: 50%;
+/*  width: 50%;*/
 }
 
 #pane, #playlist-pane {
-  height: 300px;
+/*  height: 300px;*/
 }
 .parent, .add-child {
   width: 100%;
@@ -116,4 +116,13 @@
   background-size: contain;
   width: 150px;
   height: 64px; /*Nav height*/
+}
+
+#playlist-pane {
+  overflow: scroll;
+  height: -webkit-max-content;
+  height: -moz-max-content;
+  height: max-content;
+
+
 }
