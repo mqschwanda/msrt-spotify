@@ -140,7 +140,7 @@ var spotifyAccessToken = "BQBvS35nZl1gWQvgwQmVHsdfm0SEunpnj8vaGoVUASJTGalg7hGIpk
             'Authorization': 'Bearer ' + spotifyAccessToken
           }
         }).done(function(userPlaylistResponse){
-
+console.log(userPlaylistResponse)
             // Loop Through the Playlists and get the IDs
             for(var i = 0; i < userPlaylistResponse.items.length; i++){
 

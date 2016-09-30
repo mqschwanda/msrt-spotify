@@ -39,50 +39,132 @@ sampleWatsonLyricsResult = ["See me comin' to town with my soul Straight down â€
 
 //Running song lyrics from playlist through sentimood.js
 function getCurrentSongSentimood(songLyrics){
-for (var i = 0; i < songLyrics.length; i++){
+  for (var i = 0; i < songLyrics.length; i++){
 
 
-var sentiment = new Sentimood();
-var currentSongLyric = songLyrics[i];
+    var sentiment = new Sentimood();
+    var currentSongLyric = songLyrics[i];
 
-var currentSongLyricSentiment = sentiment.analyze(currentSongLyric);
+    var currentSongLyricSentiment = sentiment.analyze(currentSongLyric);
 
-console.log(currentSongLyricSentiment)
-if(currentPlaylistLyricSentiment === 0){
-  $('#spotify-pane').html("Content")
-}else(currentPlaylistLyricSentiment === -1 || === -2 || === -3){
-  $('#spotify-pane').html("Sad")
-}else(currentPlaylistLyricSentiment === -4 || === -5 || ===-6){
-  $('#spotify-pane').html("Bummer")
-}else(currentPlaylistLyricSentiment === -7 || === -8 || <= -9){
-  $('#spotify-pane').html("You ok?")
-}else(currentPlaylistLyricSentiment === 1 || === 2 || === 3){
-  $('#spotify-pane').html("Chill")
-}else(currentPlaylistLyricSentiment === 4 || === 5 || === 6){
-  $('#spotify-pane').html("Happy")
-}else(currentPlaylistLyricSentiment === 7 || === 8 || === >= 9){
-  $('#spotify-pane').html("Ecstatic")
-}
+    currentSongSentimentTotal += currentSongLyricsSentiment.score;
+  }  
+    var currentSongSentimentValue = currentSongSentimentTotal/songlyrics.length;
+
+    var currentSongSentiment;
+
+      if(currentSongSentimentValue >= -0.5 && currentSongSentimentValue <= 0.5){
+        currentSongSentiment = "Content";
+     
+      }
+
+      else if (currentSongSentimentValue < -0.5  && currentSongSentimentValue > -3.5){
+        currentSongSentiment = "Sad";
+
+      }
+
+      else if(currentSongSentimentValue <= -3.5 && currentSongSentimentValue > -7){
+      currentSongSentiment = "Bummer";
+
+      }
+
+      else if(currentSongSentimentValue <= -7){
+        currentSongSentiment = "Are you OK?";
+
+      }
+
+      else if(currentSongSentimentValue > 0.5 && currentSongSentimentValue < 3.5){
+        currentSongSentiment = "Chill";
+
+      }
+
+      else if(currentSongSentimentValue >= 3.5 && currentSongSentimentValue < 7){
+        currentSongSentiment = "Happy";
+      
+      }
+
+      else if(currentSongSentimentValue >= 7){
+        currentSongSentiment = "Ecstatic!";
+
+      }
+
+      else{
+        currentSongSentiment = "Unknown";
+      }
+};
 
 
-}
 getPlaylistSentimood(songLyrics);
 //console.log(currentSongLyric)
 //console.log(currentSongLyricSentiment)
 
 function getPlaylistSentimood(songLyricsForWatson){
+
+  var playlistSentimentTotal = 0;
+
+  // iternate over playlist lyrics and sum all mood values
   for(var i = 0; i < songLyricsForWatson.length; i ++){
 
     var sentiment = new Sentimood();
-    var currentPlaylistLyric = songLyricsForWaton[i];
+    var currentPlaylistLyric = songLyricsForWatson[i];
 
     var currentPlaylistLyricSentiment = sentiment.analyze(currentPlaylistLyric);
 
-    console.log(currentPlaylistLyricSentiment)
+    playlistSentimentTotal += currentPlaylistLyricSentiment.score;
   }
+
+  // divide total by songs for an average mood
+  var playlistSentimentValue = playlistSentimentTotal/songLyricsForWatson.length;
+
+  // Initialize a written mood strig;
+  var playlistSentiment;
+
+
+    if(playlistSentimentValue >= -0.5 && playlistSentimentValue <= 0.5){
+      playlistSentiment = "Content";
+     
+    }
+
+    else if (playlistSentimentValue < -0.5  && playlistSentimentValue > -3.5){
+      playlistSentiment = "Sad";
+
+    }
+
+    else if(playlistSentimentValue <= -3.5 && playlistSentimentValue > -7){
+     playlistSentiment = "Bummer";
+
+    }
+
+    else if(playlistSentimentValue <= -7){
+      playlistSentiment = "Are you OK?";
+
+    }
+
+    else if(playlistSentimentValue > 0.5 && playlistSentimentValue < 3.5){
+      playlistSentiment = "Chill";
+
+    }
+
+    else if(playlistSentimentValue >= 3.5 && playlistSentimentValue < 7){
+      playlistSentiment = "Happy";
+      
+    }
+
+    else if(playlistSentimentValue >= 7){
+       playlistSentiment = "Ecstatic!";
+
+    }
+
+    else{
+      playlistSentiment = "Unknown";
+    }
+
+
+    $('#spotify-pane').html(playlistSentiment);
+    // $(currentPlaylistLyricSentiment).attr(currentPlaylistLyric)
 }
 
-getPlaylistSentimood();
+getPlaylistSentimood(sampleWatsonLyricsResult);
 
 //Trying a new api that allows bulk text analysis.
 //sentity.io
