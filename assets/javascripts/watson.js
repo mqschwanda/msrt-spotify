@@ -321,16 +321,16 @@ function appendToDom(){
   $('#responseTable').prepend(tr);
 }
 
-//appendToDom();
+appendToDom();
 
-// $('#pane').on('click', '#max-content>.float-left>.collection>.collection-item' ,function(){
-//   polarityPlaylistSearch($(this).data('playlistObject'));
-// });
+$('#pane').on('click', '#max-content>.float-left>.collection>.collection-item' ,function(){
+  polarityPlaylistSearch($(this).data('playlistObject'));
+});
 
-// $('#playlist-pane').on('click', '.select-playlist' ,function(){
-//   polarityPlaylistSearch($(this).data('playlistObject'));
-//   console.log("on click:")
-//   console.log($(this).data('playlistObject'));
-// });
+$('#playlist-pane').on('click', '.select-playlist' ,function(){
+  polarityPlaylistSearch($(this).data('playlistObject'));
+  console.log("on click:")
+  console.log($(this).data('playlistObject'));
+});
 
 
