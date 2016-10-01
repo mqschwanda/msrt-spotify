@@ -380,8 +380,8 @@ function printSongIframe(){
 
 // generates Spotify iframe for playlist from user
 function printPlaylistIframe(playlist){
-  var playlist = playlist.playlistID);
-  var user = playlist.ownerID);
+  var playlist = playlist.playlistID;
+  var user = playlist.ownerID;
   var iframe = $('<iframe>')
   iframe.attr({
     src: 'https://embed.spotify.com/?uri=spotify:user:'+user+':playlist:'+playlist,

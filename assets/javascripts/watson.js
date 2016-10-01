@@ -296,19 +296,19 @@ function songFeaturesSearch(){
 function appendToDom(){
 
 
-  var td_name = $("<td>");
+  //var td_name = $("<td>");
   var td_lyricSent = $("<td>");
   var td_musicSent = $("<td>");
   var td_energy = $("<td>");
   var td_dance = $("<td>");
 
-  td_name.html(currentParent.name);
+  //td_name.html(currentParent.name);
   td_lyricSent.html(playlistSentiment);
   td_musicSent.html(currentPlaylistSentiment);
   td_energy.html(avgPlaylistEnergy+" &#37;");
   td_dance.html(avgPlaylistDancebility+" &#37;");
   var tr = $("<tr>");
-  tr.append(td_name);
+  //tr.append(td_name);
   tr.append(td_lyricSent);
   tr.append(td_musicSent);
   tr.append(td_energy);
