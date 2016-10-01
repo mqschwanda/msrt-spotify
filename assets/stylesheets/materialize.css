@@ -2973,7 +2973,7 @@ table {
 
 table.bordered > thead > tr,
 table.bordered > tbody > tr {
-  border-bottom: 1px solid #d0d0d0;
+  border-bottom: 1px solid #282828;
 }
 
 table.striped > tbody > tr:nth-child(odd) {
@@ -2989,7 +2989,7 @@ table.highlight > tbody > tr {
 }
 
 table.highlight > tbody > tr:hover {
-  background-color: #f2f2f2;
+  background-color: #282828;
 }
 
 table.centered thead tr th, table.centered tbody tr td {
@@ -2997,7 +2997,7 @@ table.centered thead tr th, table.centered tbody tr td {
 }
 
 thead {
-  border-bottom: 1px solid #d0d0d0;
+  border-bottom: 1px solid #282828;
 }
 
 td, th {
@@ -3064,7 +3064,7 @@ td, th {
   }
   table.responsive-table thead {
     border: 0;
-    border-right: 1px solid #d0d0d0;
+    border-right: 1px solid #282828;
   }
   table.responsive-table.bordered th {
     border-bottom: 0;
@@ -3079,7 +3079,7 @@ td, th {
     border: 0;
   }
   table.responsive-table.bordered tbody tr {
-    border-right: 1px solid #d0d0d0;
+    border-right: 1px solid #282828;
   }
 }
 

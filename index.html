@@ -83,35 +83,35 @@
       </div>
       <div class="col s9">
         <!-- Place Playlist data -->
-        <div id="pane" class="row">
+        <div id="pane">
           <div class="h-scroll">
             <div id="max-content">
-              <div class="float-left">
-                <ul class="collection">
-                  <li id="select-playlist-prompt" class="collection-item">Click playlist to select</li>
-                </ul>
+              <div class="valign-wrapper">
+                <h2 id="select-playlist-prompt" class="valign">CLICK A PLAYLIST TO SELECT</h2>
               </div>
             </div>
           </div>
         </div>
-        <!-- Place Spotify API data -->
-        <div id="spotify-pane" class="row">Spotify
-          <div id="iframe">
-          </div>
-        </div>
       </div>
     </div>
-<!--       <div id="watson-pane" class="col s6" style="overflow: scroll;" >Watson
-        <h5 id="title">
-        </h5 
-        <h5 id="album">
-        </h5>
-        <img id="album-img">
-        <h5 id="artist">
-        </h5>
-        <p id="lyrics">
-        </p>
-      </div> -->
+    <div class="row">
+      <!-- Place Spotify API data -->
+      <div id="spotify-pane" class="">
+        <table class="responsive-table centered highlight bordered">
+          <thead>
+            <tr>
+              <th data-field="playlistName">Playlist</th>
+              <th data-field="moodLyrical">Lyrical Mood</th>
+              <th data-field="moodInstrumental">Instrumental Mood</th>
+              <th data-field="energy">Energy Level</th>
+              <th data-field="danceability">Dancebility</th>
+            </tr>
+          </thead>
+          <tbody id="responseTable">
+          </tbody>
+        </table>
+      </div>
+    </div>
   </main>
   <footer class="page-footer">
     <div class="footer-copyright">

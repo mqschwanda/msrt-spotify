@@ -1,14 +1,16 @@
 var songLyricsForWatson = [];
 var watsonQuery = false;
 
-function polarityPlaylistSearch(playlistIDforWatson){
+function polarityPlaylistSearch(playlistforWatson){
 
   // Resets in case it is called more than 1 time...
   watsonQuery = true;
   songLyricsForWatson = [];
   
   // AJAX call in Spotify that uses "async: false" to wait until its done to proceed
-  getUserPlaylistSongs(playlistIDforWatson);
+  getUserPlaylistSongs(playlistforWatson);
+  //   console.log("playlistforWatson.playlistID:")
+  // console.log(playlistforWatson.playlistID);
 
   // Loop through all the songs and get their lyrics
   for(var j = 0; j < currentPlaylistSongObjects.length; j++){
@@ -216,12 +218,12 @@ function songFeaturesSearch(){
          'Authorization': 'Bearer ' + spotifyAccessToken
        }
      }).done(function(userPlaylistFeaturesResponse){
-       
+       console.log(userPlaylistFeaturesResponse);
        for(var k = 0; k < userPlaylistFeaturesResponse.audio_features.length; k++){
          // Collect the features of each song
          var currentSongRythmicMood = userPlaylistFeaturesResponse.audio_features[k].valence*10; // set on a 0 to 10 scale
-         var currentSongEnergy = userPlaylistFeaturesResponse.audio_features[k].energy*10; // set on a 0 to 10 scale
-         var currentSongDanceability = userPlaylistFeaturesResponse.audio_features[k].danceability*10; // set on a 0 to 10 scale
+         var currentSongEnergy = userPlaylistFeaturesResponse.audio_features[k].energy*100; // set on a 0 to 10 scale
+         var currentSongDanceability = userPlaylistFeaturesResponse.audio_features[k].danceability*100; // set on a 0 to 10 scale
          
          // Push to the arrays (in case needed in the global scope)
          playlistRythmicMoodArray.push(currentSongRythmicMood);
@@ -237,8 +239,8 @@ function songFeaturesSearch(){
 
        // Divide the sums for an average
        avgPlaylistRythmicMood = (avgPlaylistRythmicMood/playlistRythmicMoodArray.length).toPrecision(2);
-       avgPlaylistEnergy = (avgPlaylistEnergy/playlistEnergyArray.length).toPrecision(2);
-       avgPlaylistDancebility = (avgPlaylistDancebility/playlistDanceabilityArray.length).toPrecision(2);
+       avgPlaylistEnergy = Math.round((avgPlaylistEnergy/playlistEnergyArray.length));
+       avgPlaylistDancebility = Math.round((avgPlaylistDancebility/playlistDanceabilityArray.length));
 
 
 
@@ -292,31 +294,38 @@ function songFeaturesSearch(){
 }
 
 function appendToDom(){
-  $('#spotify-pane').empty();
-
-  
-  var p_lyricSent = $("<p>");
-  var p_musicSent = $("<p>");
-  var P_showScale = $("<p>");
-  var p_energy = $("<p>");
-  var p_dance = $("<p>");
 
 
-  p_lyricSent.html("Lyrical Mood: " + playlistSentiment);
-  p_musicSent.html("Rhythmic Mood: " + currentPlaylistSentiment);
-  P_showScale.html("On a scale of 0 (low) to 10 (high)...");
-  p_energy.html("Energy Level: " + avgPlaylistEnergy);
-  p_dance.html("Dancebility: " + avgPlaylistDancebility);
+  var td_name = $("<td>");
+  var td_lyricSent = $("<td>");
+  var td_musicSent = $("<td>");
+  var td_energy = $("<td>");
+  var td_dance = $("<td>");
 
-  $('#spotify-pane').append(p_lyricSent);
-  $('#spotify-pane').append(p_musicSent);
-  $('#spotify-pane').append(P_showScale);
-  $('#spotify-pane').append(p_energy);
-  $('#spotify-pane').append(p_dance);
+  td_name.html(currentParent.name);
+  td_lyricSent.html(playlistSentiment);
+  td_musicSent.html(currentPlaylistSentiment);
+  td_energy.html(avgPlaylistEnergy+" &#37;");
+  td_dance.html(avgPlaylistDancebility+" &#37;");
+  var tr = $("<tr>");
+  tr.append(td_name);
+  tr.append(td_lyricSent);
+  tr.append(td_musicSent);
+  tr.append(td_energy);
+  tr.append(td_dance);
+  $('#responseTable').prepend(tr);
 }
 
 //appendToDom();
-      
 
+// $('#pane').on('click', '#max-content>.float-left>.collection>.collection-item' ,function(){
+//   polarityPlaylistSearch($(this).data('playlistObject'));
+// });
+
+// $('#playlist-pane').on('click', '.select-playlist' ,function(){
+//   polarityPlaylistSearch($(this).data('playlistObject'));
+//   console.log("on click:")
+//   console.log($(this).data('playlistObject'));
+// });
 
 
