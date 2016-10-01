@@ -18,8 +18,8 @@
   var currentParent;
 
 // xxxxxxxxxxxxxxxxxxxxxxxxxxx This is just Tom's scratch work for testing... It worked dude! Added songs to my playlist! xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-//userSpotifyId = "mqschwanda"; //when done, uncommment the intiailization below
-//spotifyAccessToken = "BQCvNTw3800iCsKEPAufH_mA6EX_J8Y_C8f4eFNxUtDw4YhZ44dGWmZf2fWOAJmZpdvO87oY89nlW14KSncV3GThadbfg4LYfV65sXSh_g93zIQ4z1yAsM9QTwCttAa8-bk92iyrWCzdwxGFeLaYMxnDEPMYbRZS02AB5Vj4-CbszXlZYVqoCRSgAmiDwSg-ZdqU9AUf01WN70Kq_dcw5I3sP5FiHNJTsx1HM9_9sQxVWAT9tRjVGYN20TU7C1CL-tdNMqmoPuvoryM";
+userSpotifyId = "12122110676";  //when done, uncommment the intiailization below
+spotifyAccessToken = "BQCoF_LZHz4xdGZx4BXj8FqQFa4L1c4QogNUM4Tocy4NqEfi1eqsLU32iF5NZXGZ0W4JANFGJwjVFZmL1aJVbJXx3fWp5qRldbL6ndx09Ckxr30Ky4BnOqntcXzpPi72HY-JfPkK_25_WD5UVtGp9cHB25nkB8C1CtCiJP4bjUfhzh0B3VVzPbbx6f3p4Tyu3rljeK9iatmNWv3-PRxHSPy0L1VVIleypIUbASOquXDyxQ51LYO_njAPwWpiM__Nt4wAoYF7VcqzKdX3";
 //addChildtoParentPlaylist("3ekUHhJ6QWQ6tM0KHO525Y", "4ifW6KdwgV7Ugk38iu6ukC")
 // xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
@@ -353,7 +353,7 @@ $(document).ready(function(){
 
   makeSignInLink(); // Add hyperlink to sign in button
   // ADD BACK IN AFTER TESTING
-  getUserSpotifyId(); // pull user ID from current page's URL
+ // getUserSpotifyId(); // pull user ID from current page's URL
   // function timeout to allow AJAX call to finish
   setTimeout(function(){
     getUserPlaylistIDs(); // Get all playlists from user

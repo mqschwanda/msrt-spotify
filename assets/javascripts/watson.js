@@ -286,34 +286,36 @@ function songFeaturesSearch(){
          currentPlaylistSentiment = "Unknown";
        }      
 
+      // appened evrything to dom
+      appendToDom();
+
      });
 
-     // appened evrything to dom
-     appendToDom();
+
 
 }
 
 function appendToDom(){
 
 
-  // var td_name = $("<td>");
+  var td_name = $("<td>");
   var td_lyricSent = $("<td>");
   var td_musicSent = $("<td>");
   var td_energy = $("<td>");
   var td_dance = $("<td>");
 
+  td_name.html(currentParent.name);
+  td_lyricSent.html(playlistSentiment);
+  td_musicSent.html(currentPlaylistSentiment);
+  td_energy.html(avgPlaylistEnergy+" &#37;");
+  td_dance.html(avgPlaylistDancebility+" &#37;");
   // td_name.html(currentParent.name);
-  // td_lyricSent.html(playlistSentiment);
-  // td_musicSent.html(currentPlaylistSentiment);
-  // td_energy.html(avgPlaylistEnergy+" &#37;");
-  // td_dance.html(avgPlaylistDancebility+" &#37;");
-  // td_name.html(currentParent.name);
-  td_lyricSent.html("Happy");
-  td_musicSent.html("Chill");
-  td_energy.html("64 "+"&#37;");
-  td_dance.html("61 "+ "&#37;");
+  // td_lyricSent.html("Happy");
+  // td_musicSent.html("Chill");
+  // td_energy.html("64 "+"&#37;");
+  // td_dance.html("61 "+ "&#37;");
   var tr = $("<tr>");
-  // tr.append(td_name);
+  tr.append(td_name);
   tr.append(td_lyricSent);
   tr.append(td_musicSent);
   tr.append(td_energy);
@@ -321,7 +323,7 @@ function appendToDom(){
   $('#responseTable').prepend(tr);
 }
 
-appendToDom();
+//appendToDom();
 
 $('#pane').on('click', '#max-content>.float-left>.collection>.collection-item' ,function(){
   polarityPlaylistSearch($(this).data('playlistObject'));
