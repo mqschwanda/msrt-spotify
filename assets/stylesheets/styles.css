@@ -50,6 +50,7 @@
 }
 .active-collection-item {
   color: #1ed760 !important;
+  border-left: 5px solid #1ed760
 }
 .add-playlist {
    color: #1ed760 !important;
@@ -91,12 +92,7 @@
 
 /* Content */
 
-  #spotify-pane, #watson-pane {
-    text-align: center;
-    height: 600px;
-    border: solid;
-    /*overflow: scroll;*/
-  }
+
 
 /* Footer */
   .footer-copyright {
@@ -135,14 +131,12 @@
   width: 50%;
 }
 
-#pane, #spotify-playlist, #playlist-pane {
+#pane, #playlist-pane {
   height: 400px;
 
 }
 #pane {
   display: inline-flex;
-  position: relative;
-  top: -13px;
 }
 #playlist-pane {
   height: 381px;
@@ -183,10 +177,48 @@
   height: max-content;
 }
 #select-playlist-prompt {
-  width: 250px;
   color: #1ed760;
 }
 
 .row .col {
     padding: 0 1.5rem;
+}
+
+.max-height {
+  height: 400px;
+}
+
+.float-left, iframe {
+  margin-left: 10px;
+}
+
+table {
+    max-width: 100%;
+    background-color: #181818;
+}
+
+thead {
+    background: #282828;
+    border: 1px solid #282828;
+}
+
+.in-tab {
+  min-width: 200px;
+}
+
+.playlist-add {
+  font-size: 100px;
+  margin: auto;
+}
+
+#spotify-pane {
+  padding: 2%;
+}
+
+footer.page-footer {
+    background-color: #1ed760;
+}
+
+.make-green {
+  color: #1ed760;
 }
