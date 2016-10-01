@@ -9,8 +9,8 @@ function polarityPlaylistSearch(playlistforWatson){
   
   // AJAX call in Spotify that uses "async: false" to wait until its done to proceed
   getUserPlaylistSongs(playlistforWatson);
-  //   console.log("playlistforWatson.playlistID:")
-  // console.log(playlistforWatson.playlistID);
+    console.log("playlistforWatson.playlistID:")
+  console.log(playlistforWatson.playlistID);
 
   // Loop through all the songs and get their lyrics
   for(var j = 0; j < currentPlaylistSongObjects.length; j++){

@@ -379,9 +379,9 @@ function printSongIframe(){
 }
 
 // generates Spotify iframe for playlist from user
-function printPlaylistIframe(id){
-  var playlist = id;
-  var user = userSpotifyId;
+function printPlaylistIframe(playlist){
+  var playlist = playlist.playlistID);
+  var user = playlist.ownerID);
   var iframe = $('<iframe>')
   iframe.attr({
     src: 'https://embed.spotify.com/?uri=spotify:user:'+user+':playlist:'+playlist,
@@ -521,7 +521,7 @@ $('#pane').on('click', '#max-content>.float-left>.collection>.collection-item' ,
         ul.append(liAdd);
       }
     }
-    printPlaylistIframe(currentParent.playlistID);
+    printPlaylistIframe(currentParent);
     $('#max-content').append(div.append(ul));
 
 });
