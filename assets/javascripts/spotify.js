@@ -10,8 +10,7 @@
   var parentObject;
   var childObject;
   var songIDsToBeGivenToParent = [];
-  //var tomsMusixAPIkey = "1ff5234a0012c537709d815bfc88a85d"; // Musix API Key
-  var tomsMusixAPIkey = "2a87bda74d508cda031e7d12c8580ad7"; // The Other API KEY ;)
+  var tomsMusixAPIkey = "2a87bda74d508cda031e7d12c8580ad7"; // Musix API Key
   var musixTrackId;
   var musixLyrics; // just the lyrics
   var musixLyricsResult; // whole object
@@ -19,8 +18,8 @@
   var currentParent;
 
 // xxxxxxxxxxxxxxxxxxxxxxxxxxx This is just Tom's scratch work for testing... It worked dude! Added songs to my playlist! xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
-// userSpotifyId = "mqschwanda"; //when done, uncommment the intiailization below
-// spotifyAccessToken = "BQBn71-2A25BQJK54HdRhgu0yrlQj8x0-h6rqWtLEuAWkjsRDQOw8FYdhV8akbPtpfv5aKtDX7NNRBk9aoasO4ozWXXb_33hGNlx1RyVk0WEBQJTcDp2VuYoA7gX3rcDKfr0IOWAbfa4_NajNIkUVBstE8_CGQsJ87SpJ2BGyQg52P9gO50hCxgqIdhAkeyCX6MTGdvf8ttiwKR2xscYGiLFNLhqr2nAzwFoQfFJagsLMirkaHEnaPW4Ovlgk2QWr-q7Yd2DGpEboZ8";
+//userSpotifyId = "mqschwanda"; //when done, uncommment the intiailization below
+//spotifyAccessToken = "BQCvNTw3800iCsKEPAufH_mA6EX_J8Y_C8f4eFNxUtDw4YhZ44dGWmZf2fWOAJmZpdvO87oY89nlW14KSncV3GThadbfg4LYfV65sXSh_g93zIQ4z1yAsM9QTwCttAa8-bk92iyrWCzdwxGFeLaYMxnDEPMYbRZS02AB5Vj4-CbszXlZYVqoCRSgAmiDwSg-ZdqU9AUf01WN70Kq_dcw5I3sP5FiHNJTsx1HM9_9sQxVWAT9tRjVGYN20TU7C1CL-tdNMqmoPuvoryM";
 //addChildtoParentPlaylist("3ekUHhJ6QWQ6tM0KHO525Y", "4ifW6KdwgV7Ugk38iu6ukC")
 // xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
@@ -86,20 +85,19 @@
           'Authorization': 'Bearer ' + spotifyAccessToken
         }
       }).done(function(userPlaylistResponse){
-
           // Loop Through the Playlists and get the IDs
           for(var i = 0; i < userPlaylistResponse.items.length; i++){
 
             var newPlaylistObject = {
               name: userPlaylistResponse.items[i].name,
               playlistID: userPlaylistResponse.items[i].id,
+              ownerID: userPlaylistResponse.items[i].owner.id,
               plalyistChildren: []
             };
 
             // Add Playlist IDs to array
             userPlaylistObjects.push(newPlaylistObject);
           }
-            console.log(userPlaylistObjects);
       });
   }
 
@@ -116,26 +114,33 @@
     for (var i = 0; i < userPlaylistObjects.length; i++) {
       var li = $('<li>');
       li.attr({
-        class: 'collection-item select-playlist',
+        class: 'collection-item select-playlist valign-wrapper',
         draggable: 'true',
         ondragstart: 'drag(event)'
       });
       li.data('playlistObject', userPlaylistObjects[i]);
       li.html(userPlaylistObjects[i].name);
-      ul.append(li);
+
+      var iTag = $('<i>');
+      iTag.addClass('material-icons right');
+      if (userPlaylistObjects[i].ownerID != userSpotifyId) {
+        iTag.html("language");
+      }
+      // iTag.html("playlist_add");
+      ul.append(li.append(iTag));
+
     }
     $('#printPlaylist').append(ul);
   }
 
   // Use Playlist ID to collect a Song Names / Artists / Album Art / Track IDs
   // **NOTE THIS QUERY LIMIT IS 100, SO IF THE USER PLAYLIST IS >100 SONGS, NOT ALL WILL BE TAKEN
-  function getUserPlaylistSongs(currentPlaylistID){
+  function getUserPlaylistSongs(currentPlaylist){
     // Empty out the object (if called another time)
     currentPlaylistSongObjects = [];
-
     // AJAX Call to get Selected Playlist's Songs and other info
     $.ajax({
-      url: "https://api.spotify.com/v1/users/" + userSpotifyId + "/playlists/" + currentPlaylistID + "/tracks",
+      url: "https://api.spotify.com/v1/users/" + currentPlaylist.ownerID + "/playlists/" + currentPlaylist.playlistID + "/tracks",
       async : false,
       headers: {
         'Authorization': 'Bearer ' + spotifyAccessToken
@@ -160,23 +165,24 @@
   }
 
   // Compare parent and child playlists and add the child to the parent
-  function addChildtoParentPlaylist(parentPlaylistID, childPlaylistID){
-
+  function addChildtoParentPlaylist(parentPlaylist, childPlaylist){
+// console.log("parentPlaylist: "+parentPlaylist);
+// console.log("childPlaylist: "+childPlaylist);
     // Get a Parent Object
-    getUserPlaylistSongs(parentPlaylistID);
+    getUserPlaylistSongs(parentPlaylist);
 
     // Wait a second for the function to finish getting the Parent and then get the child
     setTimeout(function(){
       parentObject = currentPlaylistSongObjects;
-      console.log(parentObject)
+      // console.log(parentObject)
 
       // Get a Child Object
-      getUserPlaylistSongs(childPlaylistID);
+      getUserPlaylistSongs(childPlaylist);
 
       // Wait a second for the function to finish
       setTimeout(function(){
         childObject = currentPlaylistSongObjects;
-        console.log(childObject)
+        // console.log(childObject)
 
         // Compare the Child and Parent and add any new songs in the child into the parent
         setTimeout(function(){
@@ -196,9 +202,10 @@
             }
 
           }
-
+console.log("parentPlaylist :");
+console.log(parentPlaylist);          
           // AJAX Call to update the user's parent playlist
-          var addToParentPlaylistURL = "https://api.spotify.com/v1/users/" + userSpotifyId + "/playlists/" + parentPlaylistID + "/tracks/?" + "uris=";
+          var addToParentPlaylistURL = "https://api.spotify.com/v1/users/" + parentPlaylist.ownerID + "/playlists/" + parentPlaylist.playlistID + "/tracks/?" + "uris=";
             // Add all the songIDs to the ajax URL
             for(var i = 0; i < songIDsToBeGivenToParent.length; i++){
               addToParentPlaylistURL += "spotify:track:" + songIDsToBeGivenToParent[i] + ","
@@ -216,12 +223,19 @@
               }
             });
 
+          // setTimeout(function(){
 
-        }, 1000); // end compare timer
+          //   printPlaylistIframe(currentParent);
 
-      }, 1000); // end child timer
+          // }, 1000); // end print playlist timer
 
+        }, 1000); // end child timer
+
+      }, 1000); // end parent timer
+    
     }, 1000); // end parent timer
+
+    printPlaylistIframe(currentParent);
   }
 
   // Search Spotify by song title
@@ -323,13 +337,15 @@ function allowDrop(ev) {
 var dragged;
 function drag(ev) {
   dragged = ev.target;
-  console.log(dragged);
+  // console.log(dragged);
 }
 
 function drop(ev) {
     ev.preventDefault();
+    
     currentParent.plalyistChildren.push($(dragged).data('playlistObject'));
-    console.log(currentParent);
+    // console.log(currentParent);
+    addChildtoParentPlaylist(currentParent, $(dragged).data('playlistObject'))
     $(ev.target).before(dragged);
 }
 
@@ -379,9 +395,9 @@ function printSongIframe(){
 }
 
 // generates Spotify iframe for playlist from user
-function printPlaylistIframe(id){
-  var playlist = id;
-  var user = userSpotifyId;
+function printPlaylistIframe(obj){
+  var playlist = obj.playlistID;
+  var user = obj.ownerID;
   var iframe = $('<iframe>')
   iframe.attr({
     src: 'https://embed.spotify.com/?uri=spotify:user:'+user+':playlist:'+playlist,
@@ -430,100 +446,115 @@ $( "#show-playlists" ).on('click', function() {
 });
 
 $('#playlist-pane').on('click', '.select-playlist' ,function(){
-  $(this).parent().children().removeClass('active-collection-item');
-  $(this).addClass('active-collection-item');
-  currentParent = $(this).data('playlistObject');
-  console.log("var currentParent: ");
-  console.log(currentParent);
 
-  $('#select-playlist-prompt').remove();
-  $('#selected-playlist').data('playlistObject', currentParent);
-
-    var div = $('<div>');
-    div.addClass('float-left');
-    var ul = $('<ul>');
-    ul.addClass('collection');
-    // change i to 0 when children are added to JS
-    for (var i = -1; i < currentParent.plalyistChildren.length; i++) {
-      console.log("Working"); // Place function to make children here
-      var li = $('<li>');
-      li.attr({
-        class: 'collection-item',
-        href: '#!'
-      });
-      if (currentParent.plalyistChildren.length == 0) {
-        li.html("No children :(")
-      } else {
-        li.html(currentParent.plalyistChildren[i].name);
-      }
-      ul.append(li);
-      if (i == currentParent.plalyistChildren.length-1) {
-        var liAdd = $('<li>');
-        liAdd.attr({
-          ondrop: 'drop(event)',
-          ondragover: 'allowDrop(event)'
-        });
-        liAdd.addClass('collection-item add-playlist');
-        liAdd.html("Add Playlist");
-        var iTag = $('<i>');
-        iTag.addClass('material-icons');
-        iTag.html("playlist_add")
-        liAdd.append(iTag)
-        ul.append(liAdd);
-      }
-    }
+  if ($(this).data('playlistObject').ownerID != userSpotifyId) {
+    // Do nothing
+  } else {
     $('#max-content').empty();
-    printPlaylistIframe(currentParent.playlistID);
-    $('#max-content').append(div.append(ul));
+    $(this).parent().children().removeClass('active-collection-item');
+    $(this).addClass('active-collection-item');
+    $('.removeLater').remove();
+    var iTagArrow = $('<i>');
+    iTagArrow.addClass('material-icons right removeLater');
+    iTagArrow.html("trending_flat")
+    $(this).append(iTagArrow);
+    currentParent = $(this).data('playlistObject');
+    console.log("var currentParent: ");
+    console.log(currentParent);
+
+    $('#select-playlist-prompt').remove();
+    $('#selected-playlist').data('playlistObject', currentParent);
+
+      var div = $('<div>');
+      div.addClass('float-left');
+      var ul = $('<ul>');
+      ul.addClass('collection with-header in-tab');
+      var liHeader = $('<li>');
+      liHeader.addClass('collection-header add-playlist valign-wrapper');
+      var divHeader = $('<h6>');
+      divHeader.addClass('center-align')
+      divHeader.html("Add Playlist:");
+      ul.append(liHeader.append(divHeader));
+      divOnDrop = $('<div>');
+      divOnDrop.attr({
+        ondrop: 'drop(event)',
+        ondragover: 'allowDrop(event)',
+        class: 'max-height'
+      });
+      var iTagAdd = $('<i>');
+      iTagAdd.addClass('material-icons playlist-add');
+      iTagAdd.html("playlist_add")
+      ul.append(divOnDrop.append(iTagAdd));
+      for (var i = 0; i < currentParent.plalyistChildren.length; i++) {
+        console.log("Working"); // Place function to make children here
+        var li = $('<li>');
+        li.attr({
+          class: 'collection-item',
+          href: '#!'
+        });
+        console.log(currentParent.plalyistChildren[i]);
+        li.html(currentParent.plalyistChildren[i].name);
+        divOnDrop.append(li);
+      }
+      printPlaylistIframe(currentParent);
+      $('#max-content').append(div.append(ul));
+    }
+  
 
 });
 
 $('#pane').on('click', '#max-content>.float-left>.collection>.collection-item' ,function(){
-  $(this).parent().children().removeClass('active-collection-item');
-  $(this).addClass('active-collection-item');
-  currentParent = $(this).data('playlistObject');
-  console.log("var currentParent: ");
-  console.log(currentParent);
 
-  $('#select-playlist-prompt').remove();
-  $('#selected-playlist').data('playlistObject', currentParent);
+  if ($(this).data('playlistObject').ownerID != userSpotifyId) {
+    // Do nothing
+  } else {
+    $(this).parent().children().removeClass('active-collection-item');
+    $(this).addClass('active-collection-item');
+    $('.removeLater').remove();
+    var iTagArrow = $('<i>');
+    iTagArrow.addClass('material-icons right removeLater');
+    iTagArrow.html("trending_flat")
+    $(this).append(iTagArrow);
+    currentParent = $(this).data('playlistObject');
+    console.log("var currentParent: ");
+    console.log(currentParent);
 
-    var div = $('<div>');
-    div.addClass('float-left');
-    var ul = $('<ul>');
-    ul.addClass('collection');
-    // change i to 0 when children are added to JS
-    for (var i = -1; i < currentParent.plalyistChildren.length; i++) {
-      console.log("Working"); // Place function to make children here
-      var li = $('<li>');
-      li.attr({
-        class: 'collection-item',
-        href: '#!'
+    $('#select-playlist-prompt').remove();
+    $('#selected-playlist').data('playlistObject', currentParent);
+
+      var div = $('<div>');
+      div.addClass('float-left');
+      var ul = $('<ul>');
+      ul.addClass('collection with-header in-tab');
+      var liHeader = $('<li>');
+      liHeader.addClass('collection-header add-playlist valign-wrapper');
+      var divHeader = $('<h6>');
+      divHeader.addClass('center-align')
+      divHeader.html("Add Playlist:");
+      ul.append(liHeader.append(divHeader));
+      divOnDrop = $('<div>');
+      divOnDrop.attr({
+        ondrop: 'drop(event)',
+        ondragover: 'allowDrop(event)',
+        class: 'max-height'
       });
-      if (currentParent.plalyistChildren.length == 0) {
-        li.html("No children :(")
-      } else {
-        li.html(currentParent.plalyistChildren[i].name);
-      }
-      ul.append(li);
-      if (i == currentParent.plalyistChildren.length-1) {
-        var liAdd = $('<li>');
-        liAdd.attr({
-          ondrop: 'drop(event)',
-          ondragover: 'allowDrop(event)'
+      var iTagAdd = $('<i>');
+      iTagAdd.addClass('material-icons playlist-add');
+      iTagAdd.html("playlist_add")
+      ul.append(divOnDrop.append(iTagAdd));
+      for (var i = 0; i < currentParent.plalyistChildren.length; i++) {
+        console.log("Working"); // Place function to make children here
+        var li = $('<li>');
+        li.attr({
+          class: 'collection-item',
+          href: '#!'
         });
-        liAdd.addClass('collection-item add-playlist');
-        liAdd.html("Add Playlist");
-        var iTag = $('<i>');
-        iTag.addClass('material-icons');
-        iTag.html("playlist_add")
-        liAdd.append(iTag)
-        ul.append(liAdd);
+        console.log(currentParent.plalyistChildren[i]);
+        li.html(currentParent.plalyistChildren[i].name);
+        divOnDrop.append(li);
       }
+      printPlaylistIframe(currentParent);
+      $('#max-content').append(div.append(ul));
     }
-    printPlaylistIframe(currentParent.playlistID);
-    $('#max-content').append(div.append(ul));
 
 });
-
-
