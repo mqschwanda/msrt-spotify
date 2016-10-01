@@ -473,7 +473,7 @@ $('#playlist-pane').on('click', '.select-playlist' ,function(){
       }
     }
     $('#max-content').empty();
-    printPlaylistIframe(currentParent.playlistID);
+    printPlaylistIframe(currentParent);
     $('#max-content').append(div.append(ul));
 
 });
